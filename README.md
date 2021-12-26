@@ -12,11 +12,5 @@ git clone git@github.com:jimmyfu87/gameFishing.git
 
 ```
 npm install
-```
-
-
-+ Step 3
-
-```
 npm start
 ```
