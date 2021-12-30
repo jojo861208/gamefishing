@@ -9,6 +9,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
+
+// create http server for socket server at port 3001
 var port  = 3001;
 var server = http.createServer(app);
 server.listen(port, () => {
@@ -24,6 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+// socket server listening to port 3001
 var servIo = io.listen(server);
 servIo.on('connection', function (socket) {
     console.log('user connected!');
