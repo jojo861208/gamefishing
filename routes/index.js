@@ -1,26 +1,34 @@
 var express = require('express');
 var router = express.Router();
 var mysql = require('mysql');
+var { mysqlPoolQuery } = require('../connection/mysql.js')
 
-var conn = mysql.createConnection({
-  host: 'us-cdbr-east-05.cleardb.net',
-  user: 'b8228822a37ac5',
-  password: 'e26c1c18',
-  database: 'heroku_e783206b1d51501',
-  port: 3306
+
+mysqlPoolQuery('SELECT client_id FROM group_info', function (err, result) {
+  if (err) {
+    console.log(err);
+    return res.status(500).json({ success: "False", message: "資料庫讀取失敗:\n" });
+  } else {
+    console.log("讀取資料庫成功")
+    console.log(result)
+  }
 });
-
-conn.connect();
-
-conn.query('SELECT client_id FROM group_info', function (err, rows, fields) {
-  if (err) throw err;
-  console.log('The result is: ', rows[0]);
-});
-conn.end();
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+router.post('/query_groupinfo', function (req, res, next) {
+  var sql = group_info;
+  mysqlPoolQuery('SELECT client_id FROM ?', sql, function (err, result) {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ success: "False", message: "資料庫讀取失敗:\n" });
+    } else {
+      console.log("讀取資料庫成功")
+      console.log(result)
+    }
+  });
+})
 module.exports = router;
