@@ -10,16 +10,12 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
-<<<<<<< HEAD
-const { mysqlPoolQuery } = require("./connection/mysql.js");
-=======
 // create http server for socket server at port 3001
-var port  = 3001;
+var port = 3001;
 var server = http.createServer(app);
 server.listen(port, () => {
     console.log(`socket server listen at: ${port}`);
 })
->>>>>>> a6eb75fe72b619951a8375fb6d08cd127a86238e
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -40,7 +36,7 @@ servIo.on('connection', function (socket) {
     socket.on('client_data', function (data) {
         console.log(data);
     });
-    socket.on('disconnect', function() {
+    socket.on('disconnect', function () {
         console.log('a user disconnected!');
     });
 });
