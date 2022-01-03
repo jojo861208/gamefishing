@@ -23,8 +23,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
+app.use('/index', indexRouter);
 app.use('/users', usersRouter);
+app.set('view engine', 'ejs'); 
+
 
 // socket server listening to port 3001
 var servIo = io.listen(server);
