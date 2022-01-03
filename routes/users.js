@@ -6,8 +6,8 @@ var { mysqlPoolQuery } = require('../connection/mysql.js')
 router.get('/', function (req, res, next) {
   //get的狀況form裡面的值要從body撈
   game_id = req.query.game_id;
-  client_id = req.query.client_id;
-  mysqlPoolQuery('SELECT * FROM group_info WHERE game_id = ? AND client_id=?', [game_id,client_id] , function (err, result) {
+  group_id = req.query.group_id;
+  mysqlPoolQuery('SELECT * FROM group_info WHERE game_id = ? AND group_id=?', [game_id,group_id] , function (err, result) {
     if (err) {
       console.log(err);
       return res.status(500).json({ success: false, message: "資料庫讀取失敗:\n" });
