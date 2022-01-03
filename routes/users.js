@@ -14,6 +14,11 @@ router.get('/', function (req, res, next) {
     } else {
       console.log("讀取資料庫成功")
       json_data = JSON.parse(JSON.stringify(result));
+
+      //回傳json
+      // return res.status(200).json({success: true, message: result}); 
+
+      //回傳值直接渲染ejs
       console.log(json_data);
       res.render('users', {
         users: json_data
