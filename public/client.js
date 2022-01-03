@@ -11,7 +11,7 @@ $(document).ready(function () {
 });
 
 function popup(e) {
-    window.location.assign("http://localhost:3001/index.html");
+    window.location.assign("http://localhost:3000/index.html");
 }
 
 jump.addEventListener('click', popup);
