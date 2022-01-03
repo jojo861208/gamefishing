@@ -16,7 +16,7 @@ router.get('/', function (req, res, next) {
       json_data = JSON.parse(JSON.stringify(result));
 
       //回傳json
-      // return res.status(200).json({success: true, message: result}); 
+      // return res.status(200).json({success: true, message: json_data}); 
 
       //回傳值直接渲染ejs
       console.log(json_data);
