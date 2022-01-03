@@ -4,7 +4,7 @@ var mysql = require('mysql');
 var { mysqlPoolQuery } = require('../connection/mysql.js')
 
 router.get('/', function (req, res, next) {
-  //get的狀況form裡面的值要從paramas撈
+  //get的狀況form裡面的值要從query撈
   game_id = req.query.game_id;
   group_id = req.query.group_id;
   mysqlPoolQuery('SELECT * FROM group_info WHERE game_id = ? AND group_id=?', [game_id, group_id], function (err, result) {
