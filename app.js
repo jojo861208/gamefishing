@@ -6,7 +6,11 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var usersRouter = require('./routes/users');
+
 var peterRouter = require('./routes/peter');
+
+var jimmyRouter = require('./routes/jimmy');
+
 
 var app = express();
 
@@ -24,7 +28,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/users', usersRouter);
+
 app.use('/peter', peterRouter);
+
+app.use('/jimmy', jimmyRouter);
+
 app.set('view engine', 'ejs');
 
 
