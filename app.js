@@ -7,6 +7,10 @@ var logger = require('morgan');
 
 var usersRouter = require('./routes/users');
 var testRouter = require('./routes/eddie');
+var ritaRouter = require('./routes/rita');
+var peterRouter = require('./routes/peter');
+var jimmyRouter = require('./routes/jimmy');
+
 
 var app = express();
 
@@ -25,6 +29,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/users', usersRouter);
 app.use('/eddie', testRouter);
+app.use('/rita', ritaRouter);
+app.use('/peter', peterRouter);
+app.use('/jimmy', jimmyRouter);
+
 app.set('view engine', 'ejs');
 
 
