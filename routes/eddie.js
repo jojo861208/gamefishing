@@ -16,12 +16,16 @@ router.get('/get_group_info', async function(req, res, next) {
                     reject(err);
                     return res.status(500).json({ success: false, message: "資料庫讀取失敗:\n" });
                 } else {
-                    console.log("讀取資料庫成功");
-                    json_data = JSON.parse(JSON.stringify(result));
-                    // 處理回傳格式
-                    fish_count = json_data[0].fish_count;
-                    ship_count = json_data[0].ship_count;
-                    resolve(json_data[0]);
+                    if (result.length) {
+                        console.log("讀取資料庫成功");
+                        json_data = JSON.parse(JSON.stringify(result));
+                        // 處理回傳格式
+                        fish_count = json_data[0].fish_count;
+                        ship_count = json_data[0].ship_count;
+                        resolve(json_data[0]);
+                    } else {
+                        return res.status(400).json({ success: false, message: err});
+                    }
                 }
             });
         })
@@ -35,7 +39,7 @@ router.get('/get_group_info', async function(req, res, next) {
                     reject(err);
                     return res.status(500).json({ success: false, message: "資料庫讀取失敗:\n" });
                 } else {
-                    if (result) {
+                    if (result.length) {
                         console.log("讀取資料庫成功");
                         json_data = JSON.parse(JSON.stringify(result));
                         // 處理回傳格式
@@ -43,7 +47,7 @@ router.get('/get_group_info', async function(req, res, next) {
                         round = json_data[0].round;
                         resolve(json_data[0]);
                     } else {
-                        return res.status(400).json({ success: false, message: error});
+                        return res.status(400).json({ success: false, message: err});
                     }
                 }
             });
