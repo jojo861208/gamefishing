@@ -8,6 +8,11 @@ var logger = require('morgan');
 var usersRouter = require('./routes/users');
 var ritaRouter = require('./routes/rita');
 
+var peterRouter = require('./routes/peter');
+
+var jimmyRouter = require('./routes/jimmy');
+
+
 var app = express();
 
 // create http server for socket server at port 3001
@@ -24,7 +29,15 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/users', usersRouter);
+<<<<<<< HEAD
 app.use('/rita', ritaRouter);
+=======
+
+app.use('/peter', peterRouter);
+
+app.use('/jimmy', jimmyRouter);
+
+>>>>>>> 2b123d6b5b69d353e6f975fc3091f160443f95d5
 app.set('view engine', 'ejs');
 
 
