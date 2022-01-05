@@ -69,6 +69,11 @@ router.get('/get_group_info', async function(req, res, next) {
     }
 })
 
+router.get('/get_all_group', function(req, res, next) {
+    game_id = req.query.game_id;
+    
+})
+
 router.get('/check_rest_fish', function (req, res, next) {
     //get的狀況form裡面的值要從query撈
     game_id = req.query.game_id;
