@@ -17,7 +17,7 @@ function preload() {
     fishes[4].addImage(loadImage('images/fish4.png'));
 
     fishes[5] = createSprite(210, 100);
-    fishes[5].addImage(loadImage('images/fish5.png'));
+    fishes[5].addImage(loadImage('images/fish2.png'));
 
     fishes[6] = createSprite(320, 120);
     fishes[6].addImage(loadImage('images/fish.png'));
@@ -38,7 +38,7 @@ function preload() {
     fishes[11].addImage(loadImage('images/fish4.png'));
 
     fishes[12] = createSprite(300, 205);
-    fishes[12].addImage(loadImage('images/fish5.png'));
+    fishes[12].addImage(loadImage('images/fish2.png'));
 
     fishes[13] = createSprite(400, 250);
     fishes[13].addImage(loadImage('images/fish.png'));

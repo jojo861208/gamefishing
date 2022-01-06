@@ -38,7 +38,7 @@ body {
     margin-top: 20px;
 }
 
-#Profile .btn {
+#Action {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -65,11 +65,33 @@ body {
     color: #FFFFFF;
 }
 
-/*滑鼠移過去之後*/
-#Profile .btn:hover{
-    background: linear-gradient( 83.53deg, #B114FF -13.77%, #6699FF 118.89%);
+#ready {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 16px 32px;
+    position: static;
+    width: 153px;
+    height: 64px;
+    left: 1154px;
+    top: 0px;
+    background: linear-gradient(78.43deg, #B114FF -31.13%, #6699FF 130.95%);
+    
+    border-radius: 12px;
+    font-family: Chewy;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 44px;
+    line-height: 140%;
+    /* identical to box height, or 62px */
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.02em;
+    /* Mono/White */
+    color: #FFFFFF;
 }
-
 
 #Modal .modal-content {
     width: 550px;
@@ -160,66 +182,4 @@ input:checked+.slider:before {
 
 .slider.round:before {
     border-radius: 50%;
-}
-
-#oopscontent{
-    margin:40px;
-}
-
-#oopsline1{
-    margin-left: 37px;
-}
-
-#oopsline2{
-    margin-left: 65px;
-}
-
-#Modal .dropdown {
-    margin-top: 20px;
-}
-#dropdownMenuButton {
-    background-color: white;
-    margin-left: 40px;
-    width: 400px;
-    font-family: 'Roboto', sans-serif;
-    color: #2A1752;
-    text-align: left;
-    border: 0px;
-}
-
-#Modal .form-range {
-    margin-left: 35px;
-    width: 402px;
-}
-
-#Modal .col-md-1 {
-    font-size: 20px;
-    color: #2A1752;
-}
-
-#yourdecision{
-    font-size: 30px;
-    font-family: 'Roboto', sans-serif;
-    color: #2A1752;
-    margin-left: 55px;
-    margin-top:30px;
-    border: none;
-    border-radius: 20px;
-    text-align: center;
-    width: 380px;
-    height:40px;
-}
-#onlycatchfish{
-    display: none;
-}
-
-#yourdecision option{
-    font-size: 20px;
-    font-family: 'Roboto', sans-serif;
-    text-align: center;
-    color: #2A1752;
-}
-
-.button:hover{
-    background: linear-gradient( 83.53deg, #B114FF -13.77%, #6699FF 118.89%);
 }
