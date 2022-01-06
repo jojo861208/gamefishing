@@ -50,7 +50,7 @@ function setup() {
     cnv.position(180, 100, 'fixed');
     for (let i = 0; i < fishes.length; i++) {
         fishes[i].scale = 0.25;
-        console.log(i + "號魚出生")
+        //console.log(i + "號魚出生")
     };
     fishes[0].setVelocity(-0.6, 0);
     fishes[1].setVelocity(-0.1, 0);
@@ -75,7 +75,7 @@ function draw() {
     clear();
 
     for (let i = 0; i < fishes.length; i++) {
-        console.log(i + "號魚出生")
+        //console.log(i + "號魚出生")
     };
     for (let i = 0; i < fishes.length; i++) {
         // Step 5: add code here to detect (add adjust) the mountains positions

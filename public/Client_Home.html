@@ -21,7 +21,7 @@
     <script src="FishSwimming.js"></script>
 </head>
 
-<body>
+<body onload="getgroupinfo();">
     <section id = "NameAndRound">
         <div class="container">
             <div class = "row">
@@ -31,7 +31,7 @@
                 <div class = "col-md-4">
                 </div>
                 <div class = "col-md-2">
-                    <h3>Round 1</h3>
+                    <h3>Round <output id="rounds"></output></h3>
                 </div>
             </div>
         </div>
@@ -46,10 +46,10 @@
         <div class="container">
             <div class = "row">
                 <div class = "col-md-3">
-                    <h6>Number of ships : 1</h6>
+                    <h6>Number of ships : <output id="ships"></output></h6>
                 </div>
                 <div class = "col-md-3">
-                    <h6>Number of fishes : 0</h6>
+                    <h6>Number of fishes : <output id="fishes" style="width:0;"></output></h6>
                 </div>
                 <div class = "col-md-2">
                 </div>
@@ -118,11 +118,11 @@
             </div>
             </div>
         </div>
-        </section>
-        <!--做決策的彈跳視窗-->
-        <section id = "Modal">
-            <div class="modal fade" id="decision" tabindex="-1" role="dialog" aria-labelledby="decisionLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
+    </section>
+    <!--做決策的彈跳視窗-->
+    <section id = "Modal">
+        <div class="modal fade" id="decision" tabindex="-1" role="dialog" aria-labelledby="decisionLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                     <h5 class="modal-title" id="decisionLabel">DECISION</h5>
@@ -197,7 +197,33 @@
                 </div>
                 </div>
             </div>
-            </section>
+    </section>
+    <!--一進頁面就先檢查他的魚貨跟船和第幾回合-->
+    <script>
+        function getgroupinfo(){
+            var v1 = sessionStorage.getItem('gn')
+            var v2 = sessionStorage.getItem('room')
+            console.log(v1+" "+v2)
+            var req = new XMLHttpRequest();
+            //var group_id = "peter";
+            //var game_id= "1";
+            var group_id = v1;
+            var game_id= v2;
+            req.open("GET","http://localhost:3000/eddie/get_group_info"+"?group_id="+group_id+"&game_id="+game_id);
+            console.log(req.status);
+            req.onload=function(){
+                reqdata=JSON.parse(req.responseText);
+                fish_count = round = reqdata["message"]["fish_count"];
+                round = reqdata["message"]["round"];
+                ship_count = reqdata["message"]["ship_count"];
+                console.log("漁獲量 : "+fish_count+" 回合 : "+round+" 船 : "+ship_count);
+                document.getElementById('fishes').innerHTML =fish_count;
+                document.getElementById('ships').innerHTML =ship_count;
+                document.getElementById('rounds').innerHTML =round;
+            }
+            req.send();
+        }
+    </script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
@@ -205,3 +231,4 @@
             
 </body>
 </html>
+<html>

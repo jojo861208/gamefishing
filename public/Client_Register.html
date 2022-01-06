@@ -25,15 +25,33 @@
             <h1>Register Page</h1>
             <h3>Group Name :</h3>
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Input a fancy name" aria-label="Username" aria-describedby="basic-addon1">
+                <input type="text" class="form-control" id ="GroupName" placeholder="Input a fancy name" aria-label="Username" aria-describedby="basic-addon1">
             </div>
             <h3>Room ID :</h3>
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Input ID to join the game" aria-label="Username" aria-describedby="basic-addon1">
+                <input type="text" class="form-control" id="RoomID" placeholder="Input ID to join the game" aria-label="Username" aria-describedby="basic-addon1">
             </div>
-            <button type="button" class="btn">Confirm</button>
+            <button type="button" class="btn" onclick = "window.location.href='Client_Home.html'">Confirm</button>
         </div>
     </section>
+    <!--拿到使用者輸入的隊伍名字跟遊戲房間準備傳給下一個頁面-->
+    <script>
+        document.getElementById('GroupName').onkeyup = function() {
+            var gn=this.value
+            console.log(gn)
+            sessionStorage.setItem('gn',gn)
+            console.log('your group name is '+ sessionStorage.getItem('gn'))
+        }
+        document.getElementById('RoomID').onkeyup = function() {
+            var room=this.value
+            console.log(room)
+            sessionStorage.setItem('room',room)
+            console.log('your room id is '+ sessionStorage.getItem('room'))
+        }
+        var v1 = sessionStorage.getItem('gn')
+        var v2 = sessionStorage.getItem('room')
+        console.log(v1+" "+v2)
+    </script>
 
 </body>
 </html>
