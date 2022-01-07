@@ -23,6 +23,7 @@
         <div class="container">
             <div class = "row" style="height: 160px"></div>
             <h1>Register Page</h1>
+            <form>
             <h3>Group Name :</h3>
             <div class="input-group">
                 <input type="text" class="form-control" id ="GroupName" placeholder="Input a fancy name" aria-label="Username" aria-describedby="basic-addon1">
@@ -31,7 +32,8 @@
             <div class="input-group">
                 <input type="text" class="form-control" id="RoomID" placeholder="Input ID to join the game" aria-label="Username" aria-describedby="basic-addon1">
             </div>
-            <button type="button" class="btn" onclick = "window.location.href='Client_Home.html'">Confirm</button>
+            <button type="button" class="btn" onclick = register()>Confirm</button>
+            </form>
         </div>
     </section>
     <!--拿到使用者輸入的隊伍名字跟遊戲房間準備傳給下一個頁面-->
@@ -51,6 +53,27 @@
         var v1 = sessionStorage.getItem('gn')
         var v2 = sessionStorage.getItem('room')
         console.log(v1+" "+v2)
+    </script>
+    <script>
+        function register(){
+            let group_id = document.getElementById('GroupName').value;
+            console.log(group_id);
+            let game_id = document.getElementById("RoomID").value;
+            console.log(game_id);
+            var params = 'group_id='+group_id+'&game_id='+game_id;
+            var req = new XMLHttpRequest();
+            req.open("POST","http://localhost:3000/client/register", true);
+            req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            req.send(params)
+            req.onload=function(){
+                reqdata=JSON.parse(req.responseText);
+                if(reqdata["success"]==true){
+                    window.location='Client_Home.html'
+                }else{
+                    alert(reqdata['message'])
+                }
+            }
+        }
     </script>
 
 </body>

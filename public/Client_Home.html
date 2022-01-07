@@ -209,10 +209,11 @@
             //var game_id= "1";
             var group_id = v1;
             var game_id= v2;
-            req.open("GET","http://localhost:3000/eddie/get_group_info"+"?group_id="+group_id+"&game_id="+game_id);
+            req.open("GET","http://localhost:3000/client/get_group_info"+"?group_id="+group_id+"&game_id="+game_id);
             console.log(req.status);
             req.onload=function(){
                 reqdata=JSON.parse(req.responseText);
+                if(reqdata["success"]==true){
                 fish_count = round = reqdata["message"]["fish_count"];
                 round = reqdata["message"]["round"];
                 ship_count = reqdata["message"]["ship_count"];
@@ -220,6 +221,10 @@
                 document.getElementById('fishes').innerHTML =fish_count;
                 document.getElementById('ships').innerHTML =ship_count;
                 document.getElementById('rounds').innerHTML =round;
+                }
+                else if(reqdata["success"]==false){
+                    alert(reqdata['message']);
+                }
             }
             req.send();
         }
