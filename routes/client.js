@@ -240,6 +240,7 @@ router.get('/catch_fish', async function (req, res, next) {
         // decision3 = 回饋海洋
         else if (decision == 3) {
             // 檢查回饋數量
+            fish_delta = fish_delta * (-1);
             if (fish_count + fish_delta >= 0) {
                 // 插入回饋紀錄
                 mysqlPoolQuery('INSERT INTO group_fish_record SET group_id=?, round = ? ,decision = 1,fish_delta = ?', [group_id, round, fish_delta], function (err, result) {
@@ -368,6 +369,47 @@ router.get('/get_group_info', async function (req, res, next) {
     } catch (error) {
         return res.status(400).json({ success: false, message: error });
     }
+})
+
+router.get('/end_game', function (req, res, next) {
+    var game_id = req.query.game_id;
+
+    function get_fish_total(game_id) {
+        return new Promise((resolve, reject) => {
+            mysqlPoolQuery('SELECT fish_total FROM ocean WHERE game_id = ?', [game_id], function (err, result) {
+                if (err) {
+                    console.log(err);
+                    reject(err);
+                    return res.status(500).json({ success: false, message: "資料庫讀取失敗:\n" });
+                } else {
+                    if (result.length) {
+                        console.log("讀取資料庫成功");
+                        json_data = JSON.parse(JSON.stringify(result));
+                        // 處理回傳格式
+                        console.log(json_data[0]);
+                        fish_total = json_data[0].fish_total;
+                        resolve(fish_total);
+                    } else {
+                        return res.status(400).json({ success: false, message: `查無${game_id}資料` });
+                    }
+                }
+            });
+        })
+    }
+    try {
+        fish_total = get_fish_total(game_id);
+        if (fish_total >= 0) {
+            res.status(200).json({ success: true, data: "0" });
+        }
+        else {
+            res.status(200).json({ success: true, data: "1" });
+        }
+    }
+    catch (error) {
+        return res.status(400).json({ success: false, message: error });
+    }
+
+
 })
 
 module.exports = router;
