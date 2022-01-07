@@ -1,49 +1,130 @@
 var express = require('express');
-const { json } = require('express/lib/response');
 var router = express.Router();
 var mysql = require('mysql');
 var { mysqlPoolQuery } = require('../connection/mysql.js')
 
-function getRandom(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-
-router.post('/change_group_status', function (req, res, next) {
-    var game_id = req.body.game_id;
-
-    mysqlPoolQuery('UPDATE group_info SET status = 1 WHERE game_id =  ?', [game_id], function (err, result) {
+// 將註冊的ID新增至資料庫裡
+router.post('/register', function (req, res) {
+    // post的狀況form裡面的值要從body撈
+    game_id = req.body.game_id;
+    group_id = req.body.group_id;
+    mysqlPoolQuery('INSERT INTO group_info VALUE (?, ?, ?, ?, ?)', [group_id, game_id, 0, 1, 0], function (err) {
         if (err) {
             console.log(err);
-            return res.status(500).json({ success: false, message: err });
+            return res.status(500).json({ success: false, message: "新增組別失敗(請換一個名字嘗試)" });
         } else {
-            json_data = JSON.parse(JSON.stringify(result));
+            console.log("新增組別成功");
             return res.status(200).json({ success: true, message: "" });
         }
     });
-
-
 });
 
-router.get('/openGame', function (req, res, next) {
-    var num_of_group = req.query.num_of_group;
-    // var game_id = req.query.game_id;
-
-    var r = getRandom(0.9, 1.1);
-    var fish_total = r * (num_of_group * 16 + 4);
-    fish_total = Math.round(fish_total, 1);
-    console.log(fish_total);
-    mysqlPoolQuery('INSERT INTO ocean SET game_id = ?, round = 1 ,fish_total = ?', [game_id, fish_total], function (err, result) {
+router.get('/get_all_group', function (req, res, next) {
+    game_id = req.query.game_id;
+    mysqlPoolQuery('SELECT group_id FROM group_info WHERE game_id = ?', [game_id], function (err, result) {
         if (err) {
             console.log(err);
-            return res.status(500).json({ success: false, message: err });
+            return res.status(500).json({ success: false, message: "資料庫讀取失敗:\n" });
         } else {
+            console.log("讀取資料庫成功")
             json_data = JSON.parse(JSON.stringify(result));
-            return res.status(200).json({ success: true, message: json_data[0].game_id });
+            // 回傳值是一array, 使用json_data[i].group_id取值
+            console.log(json_data);
+            let groupArr = [];
+            for (const iterator of json_data) {
+                groupArr.push(iterator.group_id);
+            }
+            // groupArr是一陣列，用groupArr[i]取值
+            console.log(groupArr);
+            // 回傳json
+            return res.status(200).json({ success: true, message: groupArr });
         }
     });
+})
+
+function generateRandomInt(min, max) {
+    return Math.floor((Math.random() * (max - min)) + min);
+}
+
+function check_buy_ship(fish_count, ship_count) {
+    if (fish_count >= 6 && ship_count < 4) {
+        return 1;
+    }
+    else {
+        return 0;
+    }
+}
+
+router.get('/check_buy_ship', function (req, res) {
+    //get的狀況form裡面的值要從query撈
+    let game_id = req.query.game_id;
+    let group_id = req.query.group_id;
+    mysqlPoolQuery('SELECT fish_count, ship_count FROM group_info WHERE game_id=? AND group_id=?',
+        [game_id, group_id], function (err, result) {
+            if (err) {
+                console.log(err);
+                return res.status(500).json({ success: false, message: "資料庫讀取失敗:\n" });
+            } else {
+                console.log("讀取資料庫成功")
+                json_data = JSON.parse(JSON.stringify(result));
+                let check_buy_ship_result;
+                check_buy_ship_result = check_buy_ship(json_data[0].fish_count, json_data[0].ship_count)
+                // 回傳json
+                return res.status(200).json({ success: true, message: { 'check_buy_ship': check_buy_ship_result } });
+                //回傳值直接渲染ejs
+                console.log(json_data);
+                res.render('users', {
+                    users: json_data
+                });
+            }
+        });
 });
 
+// 將買船的決定傳到資料庫並更新現有船數(固定+1)
+router.post('/buy_ship', function (req, res) {
+    //post的狀況form裡面的值要從body撈
+    game_id = req.body.game_id;
+    group_id = req.body.group_id;
+    round = req.body.round;
+    buy_or_not = req.body.buy_or_not;
+    ship_count = req.body.ship_count;
 
+    let ship_delta = (buy_or_not == 1) ? 1 : 0;
+
+    // 記錄買船
+    mysqlPoolQuery('INSERT INTO group_ship_record (game_id, group_id, round, buy_or_not, ship_delta) \
+                      VALUE (?, ?, ?, ?, ?)', [game_id, group_id, round, buy_or_not, ship_delta], function (err) {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ success: false, message: "買船記錄失敗，請重新嘗試" });
+        } else {
+            console.log("買船記錄成功")
+            return res.status(500).json({ success: true, message: "" });
+        }
+    });
+
+    // 更新船數 & 回傳最大捕魚量 (怪：程式順序會先執行此查詢)
+    if (buy_or_not == 1) {
+        mysqlPoolQuery('UPDATE group_info \
+                      SET ship_count = ship_count + 1 \
+                      WHERE game_id = ? AND group_id = ?', [game_id, group_id], function (err) {
+            if (err) {
+                console.log(err);
+                return res.status(500).json({ success: false, message: "買船失敗，請重新嘗試" });
+            } else {
+                console.log("買船成功");
+                max_buy_fish = (ship_count + 1) * 5;
+                console.log("現在最多可以買" + max_buy_fish + "條魚");
+                return res.status(200).json({ success: true, message: max_buy_fish });
+            }
+        });
+    } else {
+        console.log("沒有買船");
+        max_buy_fish = ship_count * 5;
+        console.log("現在最多可以買" + max_buy_fish + "條魚");
+        return res.status(200).json({ success: true, message: max_buy_fish });
+    };
+});
 
 router.get('/catch_fish', async function (req, res, next) {
     var group_id = req.query.group_id;
@@ -204,6 +285,89 @@ router.get('/catch_fish', async function (req, res, next) {
         return res.status(400).json({ success: false, message: "海洋沒魚了QQ" })
     }
 
+})
+
+router.get('/check_rest_fish', function (req, res, next) {
+    //get的狀況form裡面的值要從query撈
+    game_id = req.query.game_id;
+    mysqlPoolQuery('SELECT fish_total FROM ocean WHERE game_id = ?', [game_id], function (err, result) {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ success: false, message: "資料庫讀取失敗:\n" });
+        } else {
+            console.log("讀取資料庫成功")
+            json_data = JSON.parse(JSON.stringify(result));
+            // 回傳json
+            return res.status(200).json({ success: true, message: json_data[0] });
+        }
+    });
+});
+
+outer.get('/get_group_info', async function (req, res, next) {
+    let group_id = req.query.group_id;
+    let game_id = req.query.game_id;
+    let round, fish_count, ship_count;
+    console.log(group_id, game_id);
+
+    function getCountPromise(group_id) {
+        return new Promise((resolve, reject) => {
+            mysqlPoolQuery('SELECT fish_count, ship_count FROM group_info WHERE group_id = ?', [group_id], function (err, result) {
+                if (err) {
+                    console.log(err);
+                    reject(err);
+                    return res.status(500).json({ success: false, message: "資料庫讀取失敗:\n" });
+                } else {
+                    if (result.length) {
+                        console.log("讀取資料庫成功");
+                        json_data = JSON.parse(JSON.stringify(result));
+                        // 處理回傳格式
+                        fish_count = json_data[0].fish_count;
+                        ship_count = json_data[0].ship_count;
+                        resolve(json_data[0]);
+                    } else {
+                        return res.status(400).json({ success: false, message: `查無${group_id}資料` });
+                    }
+                }
+            });
+        })
+    }
+
+    function getRoundPromise(game_id) {
+        return new Promise((resolve, reject) => {
+            mysqlPoolQuery('SELECT round FROM ocean WHERE game_id = ?', [game_id], function (err, result) {
+                if (err) {
+                    console.log(err);
+                    reject(err);
+                    return res.status(500).json({ success: false, message: "資料庫讀取失敗:\n" });
+                } else {
+                    if (result.length) {
+                        console.log("讀取資料庫成功");
+                        json_data = JSON.parse(JSON.stringify(result));
+                        // 處理回傳格式
+                        console.log(json_data[0]);
+                        round = json_data[0].round;
+                        resolve(json_data[0]);
+                    } else {
+                        return res.status(400).json({ success: false, message: `查無${game_id}資料` });
+                    }
+                }
+            });
+        })
+    }
+    try {
+        await getCountPromise(group_id);
+        await getRoundPromise(game_id);
+
+        return res.status(200)
+            .json({
+                success: true,
+                message: {
+                    'round': round, 'fish_count': fish_count, 'ship_count': ship_count
+                }
+            })
+    } catch (error) {
+        return res.status(400).json({ success: false, message: error });
+    }
 })
 
 module.exports = router;

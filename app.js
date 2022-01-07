@@ -5,12 +5,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var usersRouter = require('./routes/users');
-var testRouter = require('./routes/eddie');
-var ritaRouter = require('./routes/rita');
-var peterRouter = require('./routes/peter');
-var jimmyRouter = require('./routes/jimmy');
-
+var adminRouter = require('./routes/admin');
+var clientRouter = require('./routes/client');
 
 var app = express();
 
@@ -27,11 +23,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/users', usersRouter);
-app.use('/eddie', testRouter);
-app.use('/rita', ritaRouter);
-app.use('/peter', peterRouter);
-app.use('/jimmy', jimmyRouter);
+// app.use('/users', usersRouter);
+// app.use('/eddie', testRouter);
+// app.use('/rita', ritaRouter);
+// app.use('/peter', peterRouter);
+// app.use('/jimmy', jimmyRouter);
+
+app.use('/admin', adminRouter);
+app.use('/client', clientRouter);
+
 
 app.set('view engine', 'ejs');
 
