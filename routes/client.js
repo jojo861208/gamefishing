@@ -194,7 +194,7 @@ router.get('/catch_fish', async function (req, res, next) {
                     } else {
                         console.log('-----插入購買記錄成功-----');
                         // 更新group_info中組內魚數量
-                        mysqlPoolQuery('UPDATE group_info SET fish_count = fish_count+? WHERE group_id = ?', [fish_delta, group_id], function (err, result) {
+                        mysqlPoolQuery('UPDATE group_info SET fish_count = fish_count+?, status = 0 WHERE group_id = ?', [fish_delta, group_id], function (err, result) {
                             if (err) {
                                 console.log('-----更新魚數失敗-----');
                                 console.log(err);
@@ -224,7 +224,7 @@ router.get('/catch_fish', async function (req, res, next) {
         }
         // decision2 = 休息
         else if (decision == 2) {
-            mysqlPoolQuery('UPDATE group_fish_record SET decision = 2 WHERE group_id = ?', [group_id], function (err, result) {
+            mysqlPoolQuery('UPDATE group_fish_record SET decision = 2 , status = 0 WHERE group_id = ?', [group_id], function (err, result) {
                 if (err) {
                     console.log('-----紀錄休息失敗-----');
                     console.log(err);
@@ -251,7 +251,7 @@ router.get('/catch_fish', async function (req, res, next) {
                     } else {
                         console.log('-----插入回饋記錄成功-----');
                         // 更新group_info中組內魚數量
-                        mysqlPoolQuery('UPDATE group_info SET fish_count = fish_conut+? WHERE group_id = ?', [fish_delta, group_id], function (err, result) {
+                        mysqlPoolQuery('UPDATE group_info SET fish_count = fish_conut+? , status = 0 WHERE group_id = ?', [fish_delta, group_id], function (err, result) {
                             if (err) {
                                 console.log('-----更新魚數失敗-----');
                                 console.log(err);
@@ -370,6 +370,7 @@ router.get('/get_group_info', async function (req, res, next) {
         return res.status(400).json({ success: false, message: error });
     }
 })
+
 
 
 module.exports = router;
