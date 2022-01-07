@@ -104,14 +104,14 @@ router.get('/check_rank', function(req, res, next) {
             json_data = JSON.parse(JSON.stringify(result));
             // 回傳值是一array
             console.log(json_data);
-            let rank;
             let map = new Map();
             for (const iterator of json_data) {
                 map.set(iterator.group_id, iterator.fish_count);
             }
             console.log(map);
-            let rankMap = new Map([...map.entries()].sort((a, b) => a[1] - b[1]));
+            let rankMap = new Map([...map.entries()].sort((a, b) => b[1] - a[1]));
             console.log("ranked map: ", rankMap);
+            // convert map into object
             let obj = Object.fromEntries(rankMap);
             let groupRank = Object.keys(obj);
             // groupRank是一陣列，用groupRank[i]取值
