@@ -1,4 +1,5 @@
 var express = require('express');
+const { json } = require('express/lib/response');
 var router = express.Router();
 var mysql = require('mysql');
 var { mysqlPoolQuery } = require('../connection/mysql.js')
@@ -25,7 +26,7 @@ router.post('/change_group_status', function (req, res, next) {
 
 router.get('/openGame', function (req, res, next) {
     var num_of_group = req.query.num_of_group;
-    var game_id = req.query.game_id;
+    // var game_id = req.query.game_id;
 
     var r = getRandom(0.9, 1.1);
     var fish_total = r * (num_of_group * 16 + 4);
@@ -37,7 +38,7 @@ router.get('/openGame', function (req, res, next) {
             return res.status(500).json({ success: false, message: err });
         } else {
             json_data = JSON.parse(JSON.stringify(result));
-            return res.status(200).json({ success: true, message: "" });
+            return res.status(200).json({ success: true, message: json_data[0].game_id });
         }
     });
 });
