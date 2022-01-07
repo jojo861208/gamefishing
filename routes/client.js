@@ -106,8 +106,8 @@ router.post('/buy_ship', function (req, res) {
     // 更新船數 & 回傳最大捕魚量 (怪：程式順序會先執行此查詢)
     if (buy_or_not == 1) {
         mysqlPoolQuery('UPDATE group_info \
-                      SET ship_count = ship_count + 1 \
-                      WHERE game_id = ? AND group_id = ?', [game_id, group_id], function (err) {
+                      SET ship_count = ship_count + 1 , fish_count = fish_count - 6 \
+                      WHERE game_id = ? AND group_id = ? ', [game_id, group_id], function (err) {
             if (err) {
                 console.log(err);
                 return res.status(500).json({ success: false, message: "買船失敗，請重新嘗試" });
