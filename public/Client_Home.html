@@ -199,36 +199,7 @@
             </div>
     </section>
     <!--一進頁面就先檢查他的魚貨跟船和第幾回合-->
-    <script>
-        function getgroupinfo(){
-            var v1 = sessionStorage.getItem('gn')
-            var v2 = sessionStorage.getItem('room')
-            console.log(v1+" "+v2)
-            var req = new XMLHttpRequest();
-            //var group_id = "peter";
-            //var game_id= "1";
-            var group_id = v1;
-            var game_id= v2;
-            req.open("GET","http://localhost:3000/client/get_group_info"+"?group_id="+group_id+"&game_id="+game_id);
-            console.log(req.status);
-            req.onload=function(){
-                reqdata=JSON.parse(req.responseText);
-                if(reqdata["success"]==true){
-                fish_count = round = reqdata["message"]["fish_count"];
-                round = reqdata["message"]["round"];
-                ship_count = reqdata["message"]["ship_count"];
-                console.log("漁獲量 : "+fish_count+" 回合 : "+round+" 船 : "+ship_count);
-                document.getElementById('fishes').innerHTML =fish_count;
-                document.getElementById('ships').innerHTML =ship_count;
-                document.getElementById('rounds').innerHTML =round;
-                }
-                else if(reqdata["success"]==false){
-                    alert(reqdata['message']);
-                }
-            }
-            req.send();
-        }
-    </script>
+    <script src='ajax.js'></script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>

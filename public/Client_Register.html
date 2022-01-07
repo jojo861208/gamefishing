@@ -54,27 +54,7 @@
         var v2 = sessionStorage.getItem('room')
         console.log(v1+" "+v2)
     </script>
-    <script>
-        function register(){
-            let group_id = document.getElementById('GroupName').value;
-            console.log(group_id);
-            let game_id = document.getElementById("RoomID").value;
-            console.log(game_id);
-            var params = 'group_id='+group_id+'&game_id='+game_id;
-            var req = new XMLHttpRequest();
-            req.open("POST","http://localhost:3000/client/register", true);
-            req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            req.send(params)
-            req.onload=function(){
-                reqdata=JSON.parse(req.responseText);
-                if(reqdata["success"]==true){
-                    window.location='Client_Home.html'
-                }else{
-                    alert(reqdata['message'])
-                }
-            }
-        }
-    </script>
+    <script src='ajax.js'></script>
 
 </body>
 </html>
