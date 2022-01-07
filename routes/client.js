@@ -303,7 +303,7 @@ router.get('/check_rest_fish', function (req, res, next) {
     });
 });
 
-outer.get('/get_group_info', async function (req, res, next) {
+router.get('/get_group_info', async function (req, res, next) {
     let group_id = req.query.group_id;
     let game_id = req.query.game_id;
     let round, fish_count, ship_count;
