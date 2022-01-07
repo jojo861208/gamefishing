@@ -15,6 +15,7 @@
 //     e.preventDefault(); // avoid to execute the actual submit of the form.
 // });
 root_url = "http://localhost:3000";
+//root_url = "gamefishing.heroku.com"
 function register(){
             let group_id = document.getElementById('GroupName').value;
             console.log(group_id);
