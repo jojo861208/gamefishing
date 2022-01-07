@@ -371,6 +371,27 @@ router.get('/get_group_info', async function (req, res, next) {
     }
 })
 
+router.get('/check_status', function (req, res, next) {
+    var game_id = req.query.game_id;
+    var group_id = req.query.group_id;
+
+    mysqlPoolQuery('SELECT status FROM group_info WHERE group_id = ? AND game_id = ?', [group_id, game_id], function (err, result) {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ success: false, message: "資料庫讀取失敗:\n" });
+        } else {
+            if (result.length) {
+                console.log("讀取資料庫成功");
+                json_data = JSON.parse(JSON.stringify(result));
+                _status = json_data[0].status;
+                return res.status(200).json({ success: true, message: _status });
+            } else {
+                return res.status(400).json({ success: false, message: `查無${group_id}資料` });
+            }
+        }
+    });
+})
+
 
 
 module.exports = router;
