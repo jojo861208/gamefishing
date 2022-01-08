@@ -1,4 +1,5 @@
 body {
+    height: 850px;
     background: linear-gradient(to bottom, #05adb9 0%, rgba(71, 151, 238, 0.28) 22%, #037d92b7 62%, #04A5AF 100%, #047faf 100%), radial-gradient(ellipse at center, #029ca7 0%, #04afaf 22%, #047faf 62%, #04A5AF 100%, #04a4afee 100%);
 }
 
@@ -24,8 +25,8 @@ body {
     margin: 0 auto;
 }
 
-#inputName h3{
-    margin:30px;
+#inputName h3 {
+    margin: 30px;
     color: white;
     font-size: 36px;
     text-align: left;
