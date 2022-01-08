@@ -55,7 +55,7 @@ function register() {
     req.open("POST", url, true);
     req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     req.send(param);
-    req.onload = function() {
+    req.onload = function () {
         rep = JSON.parse(req.responseText);
         if (rep["success"] == true) {
             window.location = 'Client_Home_Action.html';
@@ -75,7 +75,7 @@ function getgroupinfo() {
     let url = bind_url(api_url, data, 'GET');
     req.open("GET", url);
     console.log(req.status);
-    req.onload = function() {
+    req.onload = function () {
         rep = JSON.parse(req.responseText);
         if (rep["success"] == true) {
             fish_count = round = rep["message"]["fish_count"];
@@ -105,16 +105,16 @@ function open_game() {
     let url = bind_url(api_url, data, 'GET');
     req.open("GET", url);
     console.log(req.status);
-    req.onload=function(){
-        reqdata=JSON.parse(req.responseText);
-        if(reqdata["success"]==true){
+    req.onload = function () {
+        reqdata = JSON.parse(req.responseText);
+        if (reqdata["success"] == true) {
             sessionStorage.setItem('game_id', reqdata['message']);
-            window.location.href=root_url+"/ready_1.html";
-        //game_id = round = reqdata["message"]["game_id"];
-        //console.log("game_id:"+ game_id);
-        // document.getElementById('fishes').innerHTML =fish_count;
+            window.location.href = root_url + "/ready_1.html";
+            //game_id = round = reqdata["message"]["game_id"];
+            //console.log("game_id:"+ game_id);
+            // document.getElementById('fishes').innerHTML =fish_count;
         }
-        else if(rep["success"]==false){
+        else if (rep["success"] == false) {
             alert(rep['message']);
         }
     }
@@ -152,11 +152,11 @@ function checkstatus() {
     let api_url = "/client/check_status";
     var group_id = v1;
     var game_id = v2;
-    let data = { 'group_id': group_id, 'game_id': game_id };
+    let data = { 'group_id': test, 'game_id': game_id };
     let url = bind_url(api_url, data, 'GET');
     req.open("GET", url);
     console.log(req.status);
-    req.onload = function() {
+    req.onload = function () {
         reqdata = JSON.parse(req.responseText);
         console.log(reqdata);
         if (reqdata["success"] == true) {
@@ -197,6 +197,28 @@ function check_buy_ship(){
                 document.getElementById("checkbox_fish").disabled = true;
                 alert('您目前不能買船，請直接按Next Step!')
                 $("#buyship").modal().show(); 
+            }
+        }
+    }
+}
+function end_game() {
+    var v1 = sessionStorage.getItem('game_id')
+    var req = new XMLHttpRequest();
+    let api_url = "/admin/end_game";
+    let data = { 'game_id': v1 };
+    let url = bind_url(api_url, data, 'GET');
+    req.open("GET", url);
+    console.log(req.status);
+    req.onload = function () {
+        rep = JSON.parse(req.responseText);
+        if (rep["success"] == true) {
+            if (rep["message"] == 1) {
+                console.log("還有魚，顯示排名");
+                window.location.href = 'final.html';
+            }
+            else if (rep["message"] == 0) {
+                console.log("沒魚了，輸爆");
+                window.location.href = 'gameover.html'
             }
         } else if (rep["success"] == false) {
             alert(rep['message']);
