@@ -22,7 +22,7 @@
             <div class="col-md-4" style="margin-bottom:10px;">
             <h3 style = "color:white;font-size: 48px;">Current Rank</h3></div>
             <div class="col-md-4" style="margin-bottom:10px;">
-            <h3 style = "color:white;font-size: 48px;">Round <output id = "round">1</output> </h3></div>
+            <h3 style = "color:white;font-size: 48px;">Round <output id = "round">0</output> </h3></div>
         </div>
 
         <div class="row">
@@ -39,7 +39,16 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="col-md-4" style="text-align:center;height:600px;">
+                <h2 style="color:white;font-size: 35px;margin:20px" >1</h2>
+                <h2 style="color:white;font-size: 35px;margin:20px" >2</h2>
+                <h2 style="color:white;font-size: 35px;margin:20px" >3</h2>
+                <h2 style="color:white;font-size: 35px;margin:20px" >4</h2>
+                <h2 style="color:white;font-size: 35px;margin:20px" >5</h2>
+                <h2 style="color:white;font-size: 35px;margin:20px" >6</h2>
+                <h2 style="color:white;font-size: 35px;margin:20px" >7</h2>
+                <h2 style="color:white;font-size: 35px;margin:20px" >8</h2>
+            </div>
                 <div class="col-md-4" style="text-align:center;height:600px;">
                     <div class = "row" style="height:180px;"></div>
                     <button type="button" class='btn' onclick=check_rank() style="background: linear-gradient(83.53deg, #B114FF -13.77%, #6699FF 118.89%);
@@ -62,12 +71,7 @@
                         console.log(gn);
                         let game_id = sessionStorage.getItem('game_id');
                         console.log(gn);
-                        document.getElementById('game_id').onkeyup = function() {
-                            var gn=this.value
-                            console.log(gn)
-                            sessionStorage.setItem('gn',gn)
-                            console.log('Current rank is '+ sessionStorage.getItem('gn'))
-                        }
+                      
                        
                         var v1 = sessionStorage.getItem('gn')
                         console.log(v1)
@@ -76,7 +80,6 @@
                     
                    
                     <button type="button" class='btn' onclick=breeding() style="background: linear-gradient(83.53deg, #B114FF -13.77%, #6699FF 118.89%);
-
                     margin-top: 30px;
                     height: 70px;
                     width: 270px;
@@ -93,7 +96,7 @@
                     box-shadow: 5px 5px 4px #888888;">Continue</button>
 
 
-                    <button type="button" class='btn' onclick=end_game() style="background: linear-gradient(83.53deg, #B114FF -13.77%, #6699FF 118.89%);
+                    <button type="button" class='btn' onclick="document.getElementById('click_sound').play();" style="background: linear-gradient(83.53deg, #B114FF -13.77%, #6699FF 118.89%);
                     margin-top: 30px;
                     height: 70px;
                     width: 270px;
@@ -112,7 +115,7 @@
                 </div>
             </div>
         </div>
-        <!--
+<!--
       <div class="row"  style="margin:10px;">
         <div class="col-md-4" style="text-align:left;">
             <h2 style="color:white;">yoyoyo01</h2>
@@ -192,10 +195,10 @@
 
   </section>-->
 
-        <!--
+<!--
   <button class='continue' type="button">continue</button>
   <button class='end' type="button">End</button>-->
-        <!---
+  <!---
 <section id="confirmbtn">
     <button type="button" class='btn' style="position: absolute;
     width: 270px;

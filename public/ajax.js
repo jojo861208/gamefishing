@@ -380,3 +380,28 @@ function change_group_status(game_id) {
         }
     }
 }
+function end_game() {
+    var v1 = sessionStorage.getItem('game_id')
+    var req = new XMLHttpRequest();
+    let api_url = "/admin/end_game";
+    let data = { 'game_id': v1 };
+    let url = bind_url(api_url, data, 'GET');
+    req.open("GET", url);
+    console.log(req.status);
+    req.onload = function () {
+        rep = JSON.parse(req.responseText);
+        if (rep["success"] == true) {
+            if (rep["message"] == 1) {
+                console.log("還有魚，顯示排名");
+                window.location.href = 'final.html';
+            }
+            else if (rep["message"] == 0) {
+                console.log("沒魚了，輸爆");
+                window.location.href = 'gameover.html'
+            }
+        } else if (rep["success"] == false) {
+            alert(rep['message']);
+        }
+    }
+    req.send();
+}

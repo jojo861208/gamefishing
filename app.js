@@ -1,6 +1,5 @@
 var express = require('express');
 const http = require("http");
-const io = require('socket.io')(http);
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -35,20 +34,5 @@ app.use('/client', clientRouter);
 
 app.set('view engine', 'ejs');
 
-
-// socket server listening to port 3001
-var servIo = io.listen(server);
-servIo.on('connection', function (socket) {
-    console.log('user connected!');
-    setInterval(function () {
-        socket.emit('second', { 'second': new Date().getSeconds() });
-    }, 1000);
-    socket.on('client_data', function (data) {
-        console.log(data);
-    });
-    socket.on('disconnect', function () {
-        console.log('a user disconnected!');
-    });
-});
 
 module.exports = app;
