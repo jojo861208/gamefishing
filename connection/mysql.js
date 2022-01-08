@@ -7,8 +7,15 @@ const DatabaseCredential = {
     database: 'heroku_e783206b1d51501',
     port: 3306
 };
+const DatabaseCredential2 = {
+    host: '140.119.19.122',
+    user: 'b8228822a37ac5',
+    password: 'e26c1c18',
+    database: 'fishgame',
+    port: 3306
+};
 
-var pool = mysql.createPool(DatabaseCredential);
+var pool = mysql.createPool(DatabaseCredential2);
 
 const mysqlPoolQuery = async (sql, options, callback) => {
     pool.getConnection(async function (err, conn) {
