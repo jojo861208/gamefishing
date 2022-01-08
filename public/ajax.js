@@ -106,15 +106,15 @@ function open_game(){
     req.open("GET",url);
     console.log(req.status);
     req.onload=function(){
-        reqdata=JSON.parse(req.responseText);
-        if(reqdata["success"]==true){
+        rep = JSON.parse(req.responseText);
+        if(rep["success"]==true){
             window.location.href=root_url+"/ready_1.html";
         //game_id = round = reqdata["message"]["game_id"];
         //console.log("game_id:"+ game_id);
         // document.getElementById('fishes').innerHTML =fish_count;
         }
-        else if(reqdata["success"]==false){
-            alert(reqdata['message']);
+        else if(rep["success"]==false){
+            alert(rep['message']);
         }
     }
     req.send();
