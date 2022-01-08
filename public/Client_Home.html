@@ -146,7 +146,7 @@
                             </ul>
                         </div>-->
                         <div class = row>
-                            <select id="yourdecision">
+                            <select id="yourdecision" onchange="setmaxfish()">
                                 <option>&emsp;&emsp;Choose Your Decision</option>
                                 <option value="1">Catch fishes</option>
                                 <option value="2">Take a rest</option>
@@ -160,6 +160,10 @@
                                 if($(this).val() == 1){
                                 $("#onlycatchfish").show();
                                 $("#onlyletfishback").hide();
+                                $('#slider').prop({
+                                    'min': 10,
+                                    'max': 70
+                                });
                                 }else {
                                     if($(this).val() == 3){
                                         $("#onlycatchfish").hide();
@@ -191,7 +195,7 @@
                             </div>
 
                             <label for="customRange3" class="form-label"></label>
-                            <input type="range" class="form-range" min="0" max="5" value="0"step="1" id="letfishbacknum">
+                            <input type="range" class="form-range" min="1" max="5" value="0"step="1" id="letfishbacknum">
                         </div>
 
                         <!--如果選捕魚才選要補幾條魚-->
@@ -207,6 +211,16 @@
                                 // Update the current slider value (each time you drag the slider handle)
                                 slider.oninput = function() {
                                   output.innerHTML = this.value;
+                                }
+                                var maxbuyfish = sessionStorage.getItem('max_buy_fish');
+                                console.log(maxbuyfish);
+                                document.getElementById("fishdelta").setAttribute("max", maxbuyfish);
+                            </script>
+                            <script>
+                                function setmaxfish(){
+                                    var maxbuyfish = sessionStorage.getItem('max_buy_fish');
+                                    console.log(maxbuyfish);
+                                    document.getElementById("fishdelta").setAttribute("max", maxbuyfish);
                                 }
                             </script>
                         </div>
