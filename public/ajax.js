@@ -67,3 +67,46 @@ function getgroupinfo(){
 
 
     
+function open_game(){
+    let group_number = sessionStorage.getItem('gn');
+    console.log("我有拿到"+group_number);
+    //var params = 'group_number='+group_number;
+    var req = new XMLHttpRequest();
+    req.open("GET",root_url + "/admin/open_game"+"?num_of_group="+group_number);
+    console.log(req.status);
+    req.onload=function(){
+        reqdata=JSON.parse(req.responseText);
+        if(reqdata["success"]==true){
+            window.location.href=root_url+"/ready_1.html";
+        //game_id = round = reqdata["message"]["game_id"];
+        //console.log("game_id:"+ game_id);
+        // document.getElementById('fishes').innerHTML =fish_count;
+        }
+        else if(reqdata["success"]==false){
+            alert(reqdata['message']);
+        }
+    }
+    req.send();
+}
+
+// function check_rank(){
+//     let game_id = document.getElementById('Game_id').value;
+//     console.log(game_id);
+//     var params = 'game_id='+game_id_id;
+//     var req = new XMLHttpRequest();
+//     req.open("GET",root_url + "/admin/check_rank"+"?number_of_group="+game_id);
+//     console.log(req.status);
+//     req.onload=function(){
+//         reqdata=JSON.parse(req.responseText);
+//         if(reqdata["success"]==true){
+//         game_id = round = reqdata["message"]["game_id"];
+//         console.log("game_id:"+ game_id);
+//         // document.getElementById('fishes').innerHTML =fish_count;
+//         }
+//         else if(reqdata["success"]==false){
+//             alert(reqdata['message']);
+//         }
+//     }
+//     req.send();
+// }
+
