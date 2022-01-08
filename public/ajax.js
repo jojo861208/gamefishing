@@ -154,7 +154,7 @@ function checkstatus() {
     let api_url = "/client/check_status";
     var group_id = v1;
     var game_id = v2;
-    let data = { 'group_id': test, 'game_id': game_id };
+    let data = { 'group_id': group_id, 'game_id': game_id };
     let url = bind_url(api_url, data, 'GET');
     req.open("GET", url);
     console.log(req.status);
@@ -282,11 +282,13 @@ function check_max_fish() {
     var v3 = sessionStorage.getItem('round');
     var v4 = sessionStorage.getItem('ship_count');
     let checked = $('#checkbox_fish').is(':checked');
-    if (checked) {} else {
+    if (checked) {
+        checked = 1;
+    } else {
         checked = 0;
     }
     let api_url = "/client/buy_ship";
-    let data = { 'group_id': v1, 'game_id': v2, 'round': v3, 'buy_ or_not': checked, 'ship_c ount': v4 };
+    let data = { 'group_id': v1, 'game_id': v2, 'round': v3, 'buy_or_not': checked, 'ship_count': v4 };
     let result_ls = bind_url(api_url, data, 'POST');
     let url = result_ls[0]
     let param = result_ls[1]
