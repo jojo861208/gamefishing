@@ -58,7 +58,8 @@ function register() {
         rep = JSON.parse(req.responseText);
         if (rep["success"] == true) {
             window.location = 'Client_Home.html'
-        } else {
+        } 
+        else if (rep["success"] == false) {
             alert(rep['message'])
         }
     }
