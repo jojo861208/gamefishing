@@ -6,30 +6,49 @@
   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Chewy" />
   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Basic" />
   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Iceberg" />
+
+  <!-- <script>
+    window.onload = function(){
+            //  setInterval("toggleSound()",100);
+            toggleSound()
+        }
+
+    function toggleSound() {
+                var music = document.getElementById("vd");//獲取IDwqwww
+                trigger = 0;
+
+                if (trigger == 0) { //判讀是否播放
+                    trigger = 1;
+                    console.log(trigger);
+                    music.paused=false;
+                    music.play(); //沒有就播放
+                } else {
+                    music.paused=true;
+                    music.pause(); //播一次就停
+                }
+        }
+  </script> -->
+
+
+
 </head>
   <section id="gameover">
     <div class="container" >
         <div class ="title"  >Game Over</div>
-          <audio src="/audio/game_over.wav" autoplay></audio>
+          <!-- <audio controls autoplay="true" >
+            <source src="/audio/game_over.wav" type="audio/wav">
+          </audio> -->
         <div class = "subtitle">You Lose</div>
     </div>
     </div>
   </section>
 
-    <!--<section id="gameover">
-      <div class="container" style="height:630px;">
-        <div class="row">
-          <div class="col-md-6" style="text-align:center;">
-            <div class = "title">Game Over</div>
-          </div>
-
-        </div>
-      </div>
-        <div class = "subtitle">You Lose</div>
-    </section>-->
 
 <body>
 
+  <div id="music"><embed src="/audio/game_over.wav" autostart=true ></div>
+
+  <!-- <audio controls autoplay="true" src="/audio/game_over.wav"></audio> -->
 
 </body>
 
