@@ -13,7 +13,7 @@ body {
     -moz-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
     -o-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -90%);
 
     font-family: Iceberg;
     font-style: normal;
@@ -33,7 +33,7 @@ body {
     position: absolute;
     top: 55%;
     left: 50%;
-    transform: translate(-47%, 90%);
+    transform: translate(-50%, 40%);
 
     font-family: Iceberg;
     font-style: normal;
