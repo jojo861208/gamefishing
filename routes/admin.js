@@ -129,7 +129,7 @@ router.get('/end_game', async function (req, res, next) {
     try {
         fish_total = await get_fish_total(game_id);
         // console.log(fish_total)
-        if (fish_total < 0) {
+        if (fish_total <= 0) {
             res.status(200).json({ success: true, message: "0" });
         }
         else {

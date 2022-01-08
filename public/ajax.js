@@ -1,4 +1,5 @@
-root_url = "http://localhost:3000";
+//root_url = "http://localhost:3000";
+root_url = 'http://140.119.19.122:3000'
 //root_url = "gamefishing.heroku.com"
 function bind_url(api_url, data, method) {
     let param_url = root_url + api_url;

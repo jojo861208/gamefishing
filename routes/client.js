@@ -215,7 +215,7 @@ router.get('/catch_fish', async function(req, res, next) {
                             } else {
                                 console.log('-----更新魚數成功-----');
                                 // 更新魚池數目
-                                mysqlPoolQuery('UPDATE ocean SET fish_total = fish_total+? WHERE game_id = ?', [fish_delta, game_id], function(err, result) {
+                                mysqlPoolQuery('UPDATE ocean SET fish_total = fish_total-? WHERE game_id = ?', [fish_delta, game_id], function(err, result) {
                                     if (err) {
                                         console.log('-----更新魚池總數失敗-----');
                                         console.log(err);
