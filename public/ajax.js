@@ -16,22 +16,50 @@
 // });
 root_url = "http://localhost:3000";
 //root_url = "gamefishing.heroku.com"
+function bind_url(api_url, data, method) {
+    let param_url = root_url + api_url;
+    if (method == 'POST') {
+        let param = '';
+        for (const [key, value] of Object.entries(data)) {
+            param = param + '&' + key + '=' + value
+        }
+        //POST回傳兩個值
+        return (param_url, param);
+    }
+    else if (method == 'GET') {
+        let count = 0;
+        for (const [key, value] of Object.entries(data)) {
+            if (count == 0) {
+                param_url = param_url + '?' + key + '=' + value
+            }
+            else {
+                param_url = param_url + '&' + key + '=' + value
+            }
+            count = count + 1;
+        }
+        //GET回傳兩個值
+        return (param_url);
+    }
+}
+
 function register() {
     let group_id = document.getElementById('GroupName').value;
     console.log(group_id);
     let game_id = document.getElementById("RoomID").value;
     console.log(game_id);
-    var params = 'group_id=' + group_id + '&game_id=' + game_id;
+    let api_url = "/client/register"; 
+    let data = { 'group_id': group_id, 'game_id': game_id };
+    let url, param = bind_url(api_url, data, 'POST');
     var req = new XMLHttpRequest();
-    req.open("POST", root_url + "/client/register", true);
+    req.open("POST", url, true);
     req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    req.send(params)
-    req.onload = function() {
-        reqdata = JSON.parse(req.responseText);
-        if (reqdata["success"] == true) {
-            window.location = 'Client_Home_Action.html'
+    req.send(param)
+    req.onload = function () {
+        rep = JSON.parse(req.responseText);
+        if (rep["success"] == true) {
+            window.location = 'Client_Home.html'
         } else {
-            alert(reqdata['message'])
+            alert(rep['message'])
         }
     }
 }
@@ -41,29 +69,29 @@ function getgroupinfo() {
     var v2 = sessionStorage.getItem('room')
     console.log(v1 + " " + v2)
     var req = new XMLHttpRequest();
-    //var group_id = "peter9999";
-    //var game_id = "2";
-    var group_id = v1;
-    var game_id = v2;
-    req.open("GET", root_url + "/client/get_group_info" + "?group_id=" + group_id + "&game_id=" + game_id);
+    let api_url = "/client/get_group_info";
+    let data = { 'group_id': v1, 'game_id': v2 };
+    let url = bind_url(api_url, data, 'GET');
+    req.open("GET", url);
     console.log(req.status);
-    req.onload = function() {
-        reqdata = JSON.parse(req.responseText);
-        if (reqdata["success"] == true) {
-            fish_count = round = reqdata["message"]["fish_count"];
-            round = reqdata["message"]["round"];
-            ship_count = reqdata["message"]["ship_count"];
+    req.onload = function () {
+        rep = JSON.parse(req.responseText);
+        if (rep["success"] == true) {
+            fish_count = round = rep["message"]["fish_count"];
+            round = rep["message"]["round"];
+            ship_count = rep["message"]["ship_count"];
             console.log("漁獲量 : " + fish_count + " 回合 : " + round + " 船 : " + ship_count);
-            document.getElementById('grounpname').innerHTML = v1;
             document.getElementById('fishes').innerHTML = fish_count;
             document.getElementById('ships').innerHTML = ship_count;
             document.getElementById('rounds').innerHTML = round;
-        } else if (reqdata["success"] == false) {
-            alert(reqdata['message']);
+        }
+        else if (rep["success"] == false) {
+            alert(rep['message']);
         }
     }
     req.send();
 }
+
 
 
     
@@ -72,7 +100,10 @@ function open_game(){
     console.log("我有拿到"+group_number);
     //var params = 'group_number='+group_number;
     var req = new XMLHttpRequest();
-    req.open("GET",root_url + "/admin/open_game"+"?num_of_group="+group_number);
+    let api_url = "/admin/open_game";
+    let data = { 'num_of_group': group_number};
+    let url = bind_url(api_url, data, 'GET');
+    req.open("GET",url);
     console.log(req.status);
     req.onload=function(){
         reqdata=JSON.parse(req.responseText);
