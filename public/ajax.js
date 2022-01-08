@@ -97,7 +97,6 @@ function getgroupinfo() {
     req.send();
 }
 
-
 function open_game() {
     let group_number = sessionStorage.getItem('gn');
     console.log("我有拿到" + group_number);
@@ -122,6 +121,7 @@ function open_game() {
     }
     req.send();
 }
+
 
 // function check_rank(){
 //     let game_id = document.getElementById('Game_id').value;
@@ -154,7 +154,7 @@ function checkstatus() {
     let api_url = "/client/check_status";
     var group_id = v1;
     var game_id = v2;
-    let data = { 'group_id': group_id, 'game_id': game_id };
+    let data = { 'group_id': test, 'game_id': game_id };
     let url = bind_url(api_url, data, 'GET');
     req.open("GET", url);
     console.log(req.status);
@@ -217,7 +217,91 @@ function catchfish() {
         } else {
             alert(reqdata["message"]);
         }
-
     }
     req.send();
+}
+
+
+function check_buy_ship() {
+    var v1 = sessionStorage.getItem('gn')
+    var v2 = sessionStorage.getItem('room')
+    console.log(v1 + " " + v2)
+    var req = new XMLHttpRequest();
+    let api_url = "/client/check_buy_ship";
+    let data = { 'group_id': v1, 'game_id': v2 };
+    let url = bind_url(api_url, data, 'GET');
+    req.open("GET", url);
+    console.log(req.status);
+    req.onload = function() {
+        rep = JSON.parse(req.responseText);
+        if (rep["success"] == true) {
+            //可以買船
+            if (rep["message"]["check_buy_ship"] == 1) {
+                $("#buyship").modal().show();
+            }
+            //不能買船
+            else if (rep["message"]["check_buy_ship"] == 0) {
+                document.getElementById("checkbox_fish").disabled = true;
+                alert('您目前不能買船，請直接按Next Step!')
+                $("#buyship").modal().show();
+            }
+        }
+    }
+
+}
+
+function open_game() {
+    let group_number = sessionStorage.getItem('gn');
+    console.log("我有拿到" + group_number);
+    //var params = 'group_number='+group_number;
+    var req = new XMLHttpRequest();
+    let api_url = "/admin/open_game";
+    let data = { 'num_of_group': group_number };
+    let url = bind_url(api_url, data, 'GET');
+    req.open("GET", url);
+    console.log(req.status);
+    req.onload = function() {
+        reqdata = JSON.parse(req.responseText);
+        if (reqdata["success"] == true) {
+            sessionStorage.setItem('game_id', reqdata['message']);
+            window.location.href = root_url + "/ready_1.html";
+            //game_id = round = reqdata["message"]["game_id"];
+            //console.log("game_id:"+ game_id);
+            // document.getElementById('fishes').innerHTML =fish_count;
+        } else if (rep["success"] == false) {
+            alert(rep['message']);
+        }
+    }
+    req.send();
+}
+
+
+function check_max_fish() {
+    var v1 = sessionStorage.getItem('gn')
+    var v2 = sessionStorage.getItem('room')
+    var v3 = sessionStorage.getItem('round');
+    var v4 = sessionStorage.getItem('ship_count');
+    let checked = $('#checkbox_fish').is(':checked');
+    if (checked) {} else {
+        checked = 0;
+    }
+    let api_url = "/client/buy_ship";
+    let data = { 'group_id': v1, 'game_id': v2, 'round': v3, 'buy_ or_not': checked, 'ship_c ount': v4 };
+    let result_ls = bind_url(api_url, data, 'POST');
+    let url = result_ls[0]
+    let param = result_ls[1]
+    var req = new XMLHttpRequest();
+    req.open("POST", url, true);
+    req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    req.send(param);
+    req.onload = function() {
+        rep = JSON.parse(req.responseText);
+        if (rep["success"] == true) {
+            let max_buy_fish = rep["message"]["max_buy_fish"];
+            sessionStorage.setItem('max_buy_fish', max_buy_fish);
+            $("#decision").modal().show();
+        } else if (rep["success"] == false) {
+            alert(rep['message']);
+        }
+    }
 }

@@ -96,9 +96,8 @@ router.get('/breeding', function (req, res) {
         });
 });
 
-router.get('/end_game', function (req, res, next) {
+router.get('/end_game', async function (req, res, next) {
     var game_id = req.query.game_id;
-
     function get_fish_total(game_id) {
         return new Promise((resolve, reject) => {
             mysqlPoolQuery('SELECT fish_total FROM ocean WHERE game_id = ?', [game_id], function (err, result) {
@@ -113,6 +112,8 @@ router.get('/end_game', function (req, res, next) {
                         // 處理回傳格式
                         console.log(json_data[0]);
                         fish_total = json_data[0].fish_total;
+                        console.log(fish_total);
+                        console.log(typeof (fish_total));
                         resolve(fish_total);
                     } else {
                         return res.status(400).json({ success: false, message: `查無${game_id}資料` });
@@ -122,12 +123,13 @@ router.get('/end_game', function (req, res, next) {
         })
     }
     try {
-        fish_total = get_fish_total(game_id);
-        if (fish_total >= 0) {
-            res.status(200).json({ success: true, data: "0" });
+        fish_total = await get_fish_total(game_id);
+        // console.log(fish_total)
+        if (fish_total < 0) {
+            res.status(200).json({ success: true, message: "0" });
         }
         else {
-            res.status(200).json({ success: true, data: "1" });
+            res.status(200).json({ success: true, message: "1" });
         }
     }
     catch (error) {
