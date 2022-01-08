@@ -81,7 +81,7 @@ function getgroupinfo() {
     req.onload = function() {
         rep = JSON.parse(req.responseText);
         if (rep["success"] == true) {
-            fish_count = round = rep["message"]["fish_count"];
+            fish_count = rep["message"]["fish_count"];
             round = rep["message"]["round"];
             ship_count = rep["message"]["ship_count"];
             console.log("漁獲量 : " + fish_count + " 回合 : " + round + " 船 : " + ship_count);
@@ -127,26 +127,38 @@ function open_game() {
     req.send();
 }
 
-// function check_rank(){
-//     let game_id = document.getElementById('Game_id').value;
-//     console.log(game_id);
-//     var params = 'game_id='+game_id_id;
-//     var req = new XMLHttpRequest();
-//     req.open("GET",root_url + "/admin/check_rank"+"?number_of_group="+game_id);
-//     console.log(req.status);
-//     req.onload=function(){
-//         reqdata=JSON.parse(req.responseText);
-//         if(reqdata["success"]==true){
-//         game_id = round = reqdata["message"]["game_id"];
-//         console.log("game_id:"+ game_id);
-//         // document.getElementById('fishes').innerHTML =fish_count;
-//         }
-//         else if(reqdata["success"]==false){
-//             alert(reqdata['message']);
-//         }
-//     }
-//     req.send();
-// }
+function check_rank(){
+    // 按鈕音效
+    document.getElementById('click_sound').play();
+    // start
+    let game_id = sessionStorage.getItem('room');
+    console.log(game_id);
+    var params = 'game_id='+game_id;
+    var req = new XMLHttpRequest();
+    let api_url = "/admin/check_rank";
+    let data = { 'game_id': 6699 };
+    let url = bind_url(api_url, data, 'GET');
+    req.open("GET", url);
+    console.log(req.status);
+    req.onload=function(){
+        rep = JSON.parse(req.responseText);
+        console.log(rep["message"]);
+        if(rep["success"]==true){
+            rank_json = rep["message"]
+            for (let i = 1; i<=rank_json.length; i++){
+                console.log(i);
+                document.getElementById('array'+i).innerHTML =rank_json[i-1];
+                console.log(rank_json[i]);
+            };
+
+        }
+        else if(rep["success"]==false){
+            alert(rep['message']);
+        }
+    }
+    req.send();
+}
+
 
 function checkstatus() {
     // 按鈕音效
@@ -183,7 +195,11 @@ function checkstatus() {
     //1跳client home
     //0跳modal
 }
+
 function breeding() {
+    // 按鈕音效
+    document.getElementById('click_sound').play();
+    // start
     let game_id = sessionStorage.getItem('game_id')
     console.log('game_id', game_id);
     var req = new XMLHttpRequest();
@@ -213,7 +229,10 @@ function breeding() {
 }
 
 function change_group_status(game_id) {
-    let api_url = "/admin/change_group_status"; 
+    // 按鈕音效
+    document.getElementById('click_sound').play();
+    // start
+    let api_url = "/admin/change_group_status";
     console.log(api_url);
     let data = { 'game_id': game_id };
     let result_ls = bind_url(api_url, data, 'POST');
@@ -227,7 +246,7 @@ function change_group_status(game_id) {
         rep = JSON.parse(req.responseText);
         if (rep["success"] == true) {
             console.log("change group status success");
-        } 
+        }
         else if (rep["success"] == false) {
             alert(rep['message'])
         }
