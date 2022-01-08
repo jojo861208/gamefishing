@@ -19,7 +19,7 @@ router.get('/open_game', function (req, res, next) {
     upper_bound = 1.1 * (num_of_group * 16 + 4);
     var fish_total = getRandom(lower_bound, upper_bound);
     fish_total = Math.round(fish_total, 1);
-    mysqlPoolQuery('INSERT INTO ocean (game_id, fish_total, round) VALUES (?, ?, ?)', [game_id, fish_total, 1], function (err, result) {
+    mysqlPoolQuery('INSERT INTO ocean (game_id, fish_total, round) VALUES (?, ?, ?)', [game_id, fish_total, 0], function (err, result) {
         if (err) {
             console.log(err);
             return res.status(500).json({ success: false, message: err });

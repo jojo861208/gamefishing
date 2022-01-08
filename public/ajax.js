@@ -127,18 +127,16 @@ function get_all_group() {
     req.onload = function() {
         rep = JSON.parse(req.responseText);
         console.log(Object.values(rep));
-        console.log(rep["message"][0]);
-        // document.getElementById('array1').innerHTML = test111;
+        console.log(rep["message"]);
         let name = document.getElementById('output');
         if (rep["success"] == true) {
             for (let i = 0; i < 8; i++) {
                 if (document.getElementById('array' + [i + 1]).innerHTML == undefined) {
                     document.getElementById('array' + [i + 1]).innerHTML == " ";
                 }
-                //document.getElementById("array"+[i]).innerHTML = rep[1];
                 else {
-                    var test111 = rep["message"][0];
-                    document.getElementById('array' + [i + 1]).innerHTML = test111;
+                    var group_list = rep["message"][i];
+                    document.getElementById('array' + [i + 1]).innerHTML = group_list;
                 }
             }
         } else if (rep["success"] == false) {
