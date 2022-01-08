@@ -89,14 +89,14 @@ router.post('/buy_ship', function (req, res) {
     let ship_delta = (buy_or_not == 1) ? 1 : 0;
 
     // 記錄買船
+    
+    
     mysqlPoolQuery('INSERT INTO group_ship_record (game_id, group_id, round, buy_or_not, ship_delta) \
                       VALUE (?, ?, ?, ?, ?)', [game_id, group_id, round, buy_or_not, ship_delta], function (err) {
         if (err) {
             console.log(err);
-            return res.status(500).json({ success: false, message: "買船記錄失敗，請重新嘗試" });
         } else {
             console.log("買船記錄成功")
-            return res.status(500).json({ success: true, message: "" });
         }
     });
 
@@ -173,6 +173,23 @@ router.get('/catch_fish', async function (req, res, next) {
             });
         })
     }
+
+    // update status
+    function update_status(group_id) {
+        mysqlPoolQuery('UPDATE group_info SET status = 0 WHERE group_id = ?', [group_id], function (err, result) {
+            if (err) {
+                console.log(err);
+            } else {
+                if (result) {
+                    json_data = JSON.parse(JSON.stringify(result));
+                } else {
+                    res.status(400).json({ success: false, message: '查無資料' })
+                }
+            }
+        });
+
+    };
+
     fish_count = await get_fish_count(group_id, game_id);
     fish_total = await get_fish_total(game_id);
 
@@ -221,7 +238,7 @@ router.get('/catch_fish', async function (req, res, next) {
         }
         // decision2 = 休息
         else if (decision == 2) {
-            mysqlPoolQuery('UPDATE group_fish_record SET decision = 2 , status = 0 WHERE group_id = ?', [group_id], function (err, result) {
+            mysqlPoolQuery('UPDATE group_fish_record SET decision = 2 WHERE group_id = ?', [group_id], function (err, result) {
                 if (err) {
                     console.log('-----紀錄休息失敗-----');
                     console.log(err);
@@ -229,15 +246,19 @@ router.get('/catch_fish', async function (req, res, next) {
                 } else {
                     console.log('-----紀錄休息成功-----');
                     json_data = JSON.parse(JSON.stringify(result));
-                    return res.status(200).json({ success: true, message: "" });
+                    update_status(group_id);
+
                 }
             });
+
+            return res.status(200).json({ success: true, message: "" });
+
         }
 
         // decision3 = 回饋海洋
         else if (decision == 3) {
             // 檢查回饋數量
-            fish_delta = fish_delta * (-1);
+            console.log(fish_delta);
             if (fish_count + fish_delta >= 0) {
                 // 插入回饋紀錄
                 mysqlPoolQuery('INSERT INTO group_fish_record SET group_id=?, round = ? ,decision = 1,fish_delta = ?', [group_id, round, fish_delta], function (err, result) {
@@ -248,7 +269,7 @@ router.get('/catch_fish', async function (req, res, next) {
                     } else {
                         console.log('-----插入回饋記錄成功-----');
                         // 更新group_info中組內魚數量
-                        mysqlPoolQuery('UPDATE group_info SET fish_count = fish_conut+? , status = 0 WHERE group_id = ?', [fish_delta, group_id], function (err, result) {
+                        mysqlPoolQuery('UPDATE group_info SET fish_count = fish_count - ? , status = 0 WHERE group_id = ?', [fish_delta, group_id], function (err, result) {
                             if (err) {
                                 console.log('-----更新魚數失敗-----');
                                 console.log(err);
@@ -256,21 +277,20 @@ router.get('/catch_fish', async function (req, res, next) {
                             } else {
                                 console.log('-----更新魚數成功-----');
                                 // 更新魚池數目
-                                mysqlPoolQuery('UPDATE ocean SET fish_total = fish_total +? WHERE game_id = ?', [fish_delta, game_id], function (err, result) {
+                                mysqlPoolQuery('UPDATE ocean SET fish_total = fish_total + ? WHERE game_id = ?', [fish_delta, game_id], function (err, result) {
                                     if (err) {
                                         console.log('-----更新魚池總數失敗-----');
                                         console.log(err);
                                         return err;
                                     } else {
                                         console.log('-----更新魚池總數成功-----');
-                                        return res.status(200).json({ success: true, message: "" })
                                     }
                                 });
                             }
                         });
                     }
                 });
-                return res.status(400).json({ success: false, message: "回饋失敗，請至控制台查詢錯誤" })
+                return res.status(200).json({ success: true, message: "" })
             }
             else {
                 return res.status(400).json({ success: false, message: "沒有這麼多魚可以回饋唷!" });

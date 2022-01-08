@@ -30,7 +30,7 @@
         <div class="container">
             <div class = "row">
                 <div class = "col-md-6">
-                    <h3><output id="grounpname"> Company</h3>
+                    <h3><output id="grounpname"></output> &nbsp; Company</h3>
                 </div>
                 <div class = "col-md-4">
                 </div>
@@ -58,10 +58,10 @@
                 <div class = "col-md-2">
                 </div>
                 <div class = "col-md-2">
-                    <button type="button" class="btn btn-defaule" data-toggle="modal" data-target="#buyship" id="actionbtn" onclick="document.getElementById('click_sound').play();">Action</button>
+                    <button type="button" class="btn btn-defaule" data-toggle="modal" data-target="#buyship" id="actionbtn" onclick="check_buy_ship();">Action</button>
                 </div>
                 <div class = "col-md-2">
-                    <button type="button" class="btn btn-defaule"  data-toggle="modal" data-target="#readytowait"  onclick="document.getElementById('click_sound').play();">Ready</button>
+                    <button type="button" class="btn btn-defaule"  data-toggle="modal" data-target="#readytowait" >Ready</button>
                 </div>
             </div>
         </div>
@@ -78,8 +78,8 @@
             </button>
             </div>
             <div class="modal-body">
-                <label class="switch">
-                    <input type="checkbox">
+                <label class="switch" id='buyfish_switch'>
+                    <input type="checkbox" id='checkbox_fish'>
                     <span class="slider round"></span>
                 </label>
                 <div class = "row">
@@ -93,7 +93,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#decision" data-dismiss="modal" onclick="document.getElementById('click_sound').play();">Next Step</button>
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#decision" data-dismiss="modal" onclick="check_max_fish()">Next Step</button>
             </div>
         </div>
         </div>
@@ -191,35 +191,19 @@
                             </div>
 
                             <label for="customRange3" class="form-label"></label>
-                            <input type="range" class="form-range" min="0" max="5" value="0"step="1" id="customRange3">
+                            <input type="range" class="form-range" min="0" max="5" value="0"step="1" id="letfishbacknum">
                         </div>
 
                         <!--如果選捕魚才選要補幾條魚-->
                         <div id="onlycatchfish" style="display:none;">
-                            <!--<div class = "row" style="margin-top: 45px;">
-                                <div class = "col-md-1" ></div>
-                                <div class = "col-md-1"style="
-                                padding-left: 16px">0</div>
-                                <div class = "col-md-1"style="
-                                padding-left: 51px">1</div>
-                                <div class = "col-md-1"style="
-                                padding-left: 63px">2</div>
-                                <div class = "col-md-1"style="
-                                padding-left: 60px">3</div>
-                                <div class = "col-md-1"style="
-                                padding-left: 62px">4</div>
-                                <div class = "col-md-1"style="
-                                padding-left: 63px">5</div>
-                            </div>-->
                             <div class ="row" style="height:15px;"></div>
                             <label for="customRange3" class="form-label"></label>
-                            <input type="range" class="form-range" min="0" max="5" value="0"step="1" class="slider" id="myRange">
-                            <p id = "catfishnum"><span id="demo"></span></p>
+                            <input type="range" class="form-range" min="0" max="5" value="0"step="1" class="slider" id="fishdelta">
+                            <p id = "catfishnum"><span id="fishshow"></span></p>
                             <script>
-                                var slider = document.getElementById("myRange");
-                                var output = document.getElementById("demo");
+                                var slider = document.getElementById("fishdelta");
+                                var output = document.getElementById("fishshow");
                                 output.innerHTML = slider.value; // Display the default slider value
-
                                 // Update the current slider value (each time you drag the slider handle)
                                 slider.oninput = function() {
                                   output.innerHTML = this.value;
@@ -231,7 +215,7 @@
                     </div>
                     <div class="modal-footer">
                         <!--是要按鈕變色就好還是跳頁?-->
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cofirmthedecision"  onclick="document.getElementById('click_sound').play(); window.location.href='Client_Home_Action.html'; ">Confirm</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cofirmthedecision" onclick = catchfish()>Confirm</button>
                         <!--<button type="button" class="btn btn-secondary" data-dismiss="modal" id="cofirmthedecision">Confirm</button>-->
                     </div>
                     <!--按了confirm，按鈕action要變色-->
