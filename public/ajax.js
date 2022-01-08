@@ -1,5 +1,5 @@
-#root_url = "http://localhost:3000";
-root_url = "gamefishing.heroku.com"
+root_url = "http://localhost:3000";
+//root_url = "gamefishing.heroku.com"
 function bind_url(api_url, data, method) {
     let param_url = root_url + api_url;
     if (method == 'POST') {
@@ -42,7 +42,7 @@ function register() {
     req.open("POST", url, true);
     req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     req.send(param);
-    req.onload = function () {
+    req.onload = function() {
         rep = JSON.parse(req.responseText);
         if (rep["success"] == true) {
             window.location = 'Client_Home_Action.html';
@@ -63,7 +63,7 @@ function getgroupinfo() {
     let url = bind_url(api_url, data, 'GET');
     req.open("GET", url);
     console.log(req.status);
-    req.onload = function () {
+    req.onload = function() {
         rep = JSON.parse(req.responseText);
         if (rep["success"] == true) {
             fish_count = round = rep["message"]["fish_count"];
@@ -100,7 +100,7 @@ function open_game() {
     let url = bind_url(api_url, data, 'GET');
     req.open("GET", url);
     console.log(req.status);
-    req.onload = function () {
+    req.onload = function() {
         reqdata = JSON.parse(req.responseText);
         if (reqdata["success"] == true) {
             sessionStorage.setItem('game_id', reqdata['message']);
@@ -124,7 +124,7 @@ function get_all_group() {
     let url = bind_url(api_url, data, 'GET');
     req.open("GET", url);
     console.log(req.status);
-    req.onload = function () {
+    req.onload = function() {
         rep = JSON.parse(req.responseText);
         console.log(Object.values(rep));
         console.log(rep["message"][0]);
@@ -162,7 +162,7 @@ function check_rank() {
     let url = bind_url(api_url, data, 'GET');
     req.open("GET", url);
     console.log(req.status);
-    req.onload = function () {
+    req.onload = function() {
         rep = JSON.parse(req.responseText);
         console.log(rep["message"]);
         if (rep["success"] == true) {
@@ -179,9 +179,8 @@ function check_rank() {
     }
     req.send();
 }
+
 function show_result() {
-    // 按鈕音效
-    document.getElementById('click_sound').play();
     // start
     let game_id = sessionStorage.getItem('game_id');
     console.log(game_id);
@@ -192,7 +191,7 @@ function show_result() {
     let url = bind_url(api_url, data, 'GET');
     req.open("GET", url);
     console.log(req.status);
-    req.onload = function () {
+    req.onload = function() {
         rep = JSON.parse(req.responseText);
         console.log(rep["message"]);
         if (rep["success"] == true) {
@@ -203,8 +202,7 @@ function show_result() {
                 console.log(rank_json[i]);
             };
 
-        }
-        else if (rep["success"] == false) {
+        } else if (rep["success"] == false) {
             alert(rep['message']);
         }
     }
@@ -228,7 +226,7 @@ function checkstatus() {
     let url = bind_url(api_url, data, 'GET');
     req.open("GET", url);
     console.log(req.status);
-    req.onload = function () {
+    req.onload = function() {
         reqdata = JSON.parse(req.responseText);
         console.log(reqdata);
         if (reqdata["success"] == true) {
@@ -282,7 +280,7 @@ function catchfish() {
     let url = bind_url(api_url, data, 'GET');
     req.open("GET", url);
     console.log(req.status);
-    req.onload = function () {
+    req.onload = function() {
         reqdata = JSON.parse(req.responseText);
         console.log(reqdata);
         if (reqdata["success"] == true) {
@@ -309,7 +307,7 @@ function check_buy_ship() {
     let url = bind_url(api_url, data, 'GET');
     req.open("GET", url);
     console.log(req.status);
-    req.onload = function () {
+    req.onload = function() {
         rep = JSON.parse(req.responseText);
         console.log(rep);
         if (rep["success"] == true) {
@@ -350,7 +348,7 @@ function check_max_fish() {
     req.open("POST", url, true);
     req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     req.send(param);
-    req.onload = function () {
+    req.onload = function() {
         rep = JSON.parse(req.responseText);
         if (rep["success"] == true) {
             let max_buy_fish = rep["message"];
@@ -374,7 +372,7 @@ function breeding() {
     let url = bind_url(api_url, data, 'GET');
     req.open("GET", url);
     console.log(req.status);
-    req.onload = function () {
+    req.onload = function() {
         rep = JSON.parse(req.responseText);
         if (rep["success"] == true) {
             console.log("breeding success");
@@ -407,7 +405,7 @@ function change_group_status(game_id) {
     req.open("POST", url, true);
     req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     req.send(param)
-    req.onload = function () {
+    req.onload = function() {
         rep = JSON.parse(req.responseText);
         if (rep["success"] == true) {
             console.log("change group status success");
@@ -428,7 +426,7 @@ function end_game() {
     let url = bind_url(api_url, data, 'GET');
     req.open("GET", url);
     console.log(req.status);
-    req.onload = function () {
+    req.onload = function() {
         rep = JSON.parse(req.responseText);
         if (rep["success"] == true) {
             if (rep["message"] == 1) {
