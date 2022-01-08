@@ -26,7 +26,7 @@
         <div class="container">
             <div class = "row">
                 <div class = "col-md-6">
-                    <h3>Group6 Company</h3>
+                    <h3><output id="grounpname"> Company</h3>
                 </div>
                 <div class = "col-md-4">
                 </div>
@@ -59,8 +59,10 @@
                 <div class = "col-md-2">
                     <!--是要按鈕變色就好還是跳頁?-->
                     <!--<button type="button" id="readytogo" class="btn btn-defaule">Ready</button>-->
-                    <button type="button" id="readytogo" class="btn btn-defaule" onclick = "window.location.href='Client_Home_ReadyToNext.html'">Ready</button>
+                    <!--<button type="button" id="readytogo" class="btn btn-defaule" onclick = "window.location.href='Client_Home_ReadyToNext.html'">Ready</button>-->
+                    <button type="button" id="readytogo" class="btn btn-defaule" onclick = "checkstatus()">Ready</button>
                 </div>
+                <script src='ajax.js'></script>
                 <!--按了Ready，按鈕action要變色-->
                 <!--<script>
                     document.querySelector('#readytogo').addEventListener('click', function(){
@@ -73,45 +75,39 @@
         </div>
     </section>
 
+    <!--oops的彈跳視窗-->
     <section id = "Modal">
-    <div class="modal fade" id="buyship" tabindex="-1" role="dialog" aria-labelledby="buyshipLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="buyshipLabel">Buy Ship or not ?</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&#8855;</span>
-            </button>
-            </div>
-            <div class="modal-body">
-                <label class="switch">
-                    <input type="checkbox">
-                    <span class="slider round"></span>
-                </label>
-                <div class = "row">
-                    <div class = "col-md-4"></div>
-                    <div class = "col-md-2">
-                        <h3>Not</h3>
-                    </div>
-                    <div class = "col-md-2">
-                        <h3>Buy</h3>
+        <div class="modal fade" id="readytowait" tabindex="-1" role="dialog" aria-labelledby="readytowaitLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="readytowaitLabel">OOPS!</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&#8855;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    <div class = "row" id="oopscontent">
+                        <h3 id="oopsline1">Waiting for other groups,</h3>
+                        <h3 id="oopsline2">please check later...</h3>
                     </div>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Next Step</button>
             </div>
         </div>
-        </div>
-    </div>
     </section>
     <!--一進頁面就先檢查他的魚貨跟船和第幾回合-->
+    <script src='ajax.js'></script>
+    <!--
     <script>
         function getgroupinfo(){
             var req = new XMLHttpRequest();
             var group_id = "peter";
             var game_id= "1";
-            req.open("GET","http://localhost:3000/eddie/get_group_info"+"?group_id="+group_id+"&game_id="+game_id);
+            req.open("GET","http://localhost:3000/client/get_group_info"+"?group_id="+group_id+"&game_id="+game_id);
             console.log(req.status);
             req.onload=function(){
                 reqdata=JSON.parse(req.responseText);
@@ -125,8 +121,7 @@
             }
             req.send();
         }
-    </script>
-
+    </script>-->
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
