@@ -65,11 +65,12 @@ body {
     color: #FFFFFF;
 }
 
+
 /*滑鼠移過去之後*/
-#Profile .btn:hover{
+
+#Profile .btn:hover {
     background: linear-gradient( 83.53deg, #B114FF -13.77%, #6699FF 118.89%);
 }
-
 
 #Modal .modal-content {
     width: 550px;
@@ -162,21 +163,22 @@ input:checked+.slider:before {
     border-radius: 50%;
 }
 
-#oopscontent{
-    margin:40px;
+#oopscontent {
+    margin: 40px;
 }
 
-#oopsline1{
+#oopsline1 {
     margin-left: 37px;
 }
 
-#oopsline2{
+#oopsline2 {
     margin-left: 65px;
 }
 
 #Modal .dropdown {
     margin-top: 20px;
 }
+
 #dropdownMenuButton {
     background-color: white;
     margin-left: 40px;
@@ -192,34 +194,51 @@ input:checked+.slider:before {
     width: 402px;
 }
 
-#Modal .col-md-1 {
-    font-size: 20px;
-    color: #2A1752;
+#Modal .form-range {
+    margin-left: 35px;
+    width: 402px;
 }
 
-#yourdecision{
+input[type="range"] {
+    left: -1997px;
+    background: #f22;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    color: red;
+}
+
+#yourdecision {
     font-size: 30px;
     font-family: 'Roboto', sans-serif;
     color: #2A1752;
     margin-left: 55px;
-    margin-top:30px;
+    margin-top: 30px;
     border: none;
     border-radius: 20px;
     text-align: center;
     width: 380px;
-    height:40px;
+    height: 40px;
 }
-#onlycatchfish{
+
+#onlycatchfish {
     display: none;
 }
 
-#yourdecision option{
+#yourdecision option {
     font-size: 20px;
     font-family: 'Roboto', sans-serif;
     text-align: center;
     color: #2A1752;
 }
 
-.button:hover{
+.button:hover {
     background: linear-gradient( 83.53deg, #B114FF -13.77%, #6699FF 118.89%);
+}
+
+#catfishnum {
+    text-align: center;
+    font-family: 'Chewy';
+    font-size: 30px;
+    color: #6966ff;
 }

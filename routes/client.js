@@ -324,9 +324,10 @@ router.get('/get_group_info', async function (req, res, next) {
                         // 處理回傳格式
                         fish_count = json_data[0].fish_count;
                         ship_count = json_data[0].ship_count;
+                        console.log(json_data[0]);
                         resolve(json_data[0]);
                     } else {
-                        return res.status(400).json({ success: false, message: `查無${group_id}資料` });
+                        return res.status(400).json({ success: false, message: `查無group_id: ${group_id}資料` });
                     }
                 }
             });
@@ -349,7 +350,7 @@ router.get('/get_group_info', async function (req, res, next) {
                         round = json_data[0].round;
                         resolve(json_data[0]);
                     } else {
-                        return res.status(400).json({ success: false, message: `查無${game_id}資料` });
+                        return res.status(400).json({ success: false, message: `查無game_id: ${game_id}資料` });
                     }
                 }
             });
