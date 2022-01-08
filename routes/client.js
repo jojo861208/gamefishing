@@ -42,9 +42,6 @@ router.get('/get_all_group', function (req, res, next) {
     });
 })
 
-function generateRandomInt(min, max) {
-    return Math.floor((Math.random() * (max - min)) + min);
-}
 
 function check_buy_ship(fish_count, ship_count) {
     if (fish_count >= 6 && ship_count < 4) {
