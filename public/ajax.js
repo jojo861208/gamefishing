@@ -75,7 +75,7 @@ function getgroupinfo() {
     let url = bind_url(api_url, data, 'GET');
     req.open("GET", url);
     console.log(req.status);
-    req.onload = function () {
+    req.onload = function() {
         rep = JSON.parse(req.responseText);
         if (rep["success"] == true) {
             fish_count = round = rep["message"]["fish_count"];
@@ -85,6 +85,10 @@ function getgroupinfo() {
             document.getElementById('fishes').innerHTML = fish_count;
             document.getElementById('ships').innerHTML = ship_count;
             document.getElementById('rounds').innerHTML = round;
+            document.getElementById('grounpname').innerHTML = v1;
+            sessionStorage.setItem('round', round);
+            sessionStorage.setItem('ship_count', ship_count);
+            sessionStorage.setItem('fish_count', fish_count);
         } else if (rep["success"] == false) {
             alert(rep['message']);
         }
@@ -225,4 +229,37 @@ function end_game() {
         }
     }
     req.send();
+}
+
+function check_max_fish(){
+    var v1 = sessionStorage.getItem('gn')
+    var v2 = sessionStorage.getItem('room')
+    var v3 = sessionStorage.getItem('round');
+    var v4 = sessionStorage.getItem('ship_count');
+    let checked =  $('#checkbox_fish').is(':checked');
+    if(checked){
+        checked = 1;
+    }
+    else{
+        checked = 0;
+    }
+    let api_url = "/client/buy_ship";
+    let data = { 'group_id': v1, 'game_id': v2, 'round': v3, 'buy_or_not':checked, 'ship_count': v4};
+    let result_ls = bind_url(api_url, data, 'POST');
+    let url = result_ls[0]
+    let param = result_ls[1]
+    var req = new XMLHttpRequest();
+    req.open("POST", url, true);
+    req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    req.send(param);
+    req.onload = function () {
+        rep = JSON.parse(req.responseText);
+        if (rep["success"] == true) {       
+            let max_buy_fish = rep["message"]["max_buy_fish"];
+            sessionStorage.setItem('max_buy_fish', max_buy_fish);
+            $("#decision").modal().show(); 
+        } else if (rep["success"] == false) {
+            alert(rep['message']);
+        }
+    }
 }
