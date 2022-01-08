@@ -24,7 +24,8 @@ function bind_url(api_url, data, method) {
             param = param + '&' + key + '=' + value
         }
         //POST回傳兩個值
-        return (param_url, param);
+        result_ls = [param_url, param]
+        return result_ls;
     }
     else if (method == 'GET') {
         let count = 0;
@@ -143,3 +144,53 @@ function open_game(){
 //     req.send();
 // }
 
+function breeding() {
+    let game_id = sessionStorage.getItem('game_id')
+    console.log('game_id', game_id);
+    var req = new XMLHttpRequest();
+    let api_url = "/admin/breeding";
+    let data = { 'game_id': game_id };
+    let url = bind_url(api_url, data, 'GET');
+    req.open("GET", url);
+    console.log(req.status);
+    req.onload = function () {
+        rep = JSON.parse(req.responseText);
+        if (rep["success"] == true) {
+            console.log("breeding success");
+        }
+        else if (rep["success"] == false) {
+            alert(rep['message']);
+        }
+    }
+    req.send();
+
+    // 讓round++
+    let round = parseInt(document.getElementById('round').value);
+    console.log(round);
+    document.getElementById('round').innerHTML = round + 1;
+
+    // change group status
+    change_group_status(game_id);
+}
+
+function change_group_status(game_id) {
+    let api_url = "/admin/change_group_status"; 
+    console.log(api_url);
+    let data = { 'game_id': game_id };
+    let result_ls = bind_url(api_url, data, 'POST');
+    let url = result_ls[0]
+    let param = result_ls[1]
+    var req = new XMLHttpRequest();
+    req.open("POST", url, true);
+    req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    req.send(param)
+    req.onload = function () {
+        rep = JSON.parse(req.responseText);
+        if (rep["success"] == true) {
+            console.log("change group status success");
+        } 
+        else if (rep["success"] == false) {
+            alert(rep['message'])
+        }
+    }
+}
