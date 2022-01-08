@@ -22,7 +22,10 @@
 </head>
 
 <body onload="getgroupinfo();">
+    <!-- 音效 -->
+    <audio id="click_sound" src="/audio/click_btn.mp3" preload="auto"></audio>
     <audio src="/audio/bgm.mp3" autoplay loop></audio>
+
     <section id = "NameAndRound">
         <div class="container">
             <div class = "row">
@@ -55,10 +58,10 @@
                 <div class = "col-md-2">
                 </div>
                 <div class = "col-md-2">
-                    <button type="button" class="btn btn-defaule" data-toggle="modal" data-target="#buyship" id="actionbtn">Action</button>
+                    <button type="button" class="btn btn-defaule" data-toggle="modal" data-target="#buyship" id="actionbtn" onclick="document.getElementById('click_sound').play();">Action</button>
                 </div>
                 <div class = "col-md-2">
-                    <button type="button" class="btn btn-defaule"  data-toggle="modal" data-target="#readytowait">Ready</button>
+                    <button type="button" class="btn btn-defaule"  data-toggle="modal" data-target="#readytowait"  onclick="document.getElementById('click_sound').play();">Ready</button>
                 </div>
             </div>
         </div>
@@ -70,7 +73,7 @@
         <div class="modal-content">
             <div class="modal-header">
             <h5 class="modal-title" id="buyshipLabel">BUY SHIP OR NOT ?</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"  onclick="document.getElementById('click_sound').play();">
                 <span aria-hidden="true">&#8855;</span>
             </button>
             </div>
@@ -90,7 +93,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#decision" data-dismiss="modal">Next Step</button>
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#decision" data-dismiss="modal" onclick="document.getElementById('click_sound').play();">Next Step</button>
             </div>
         </div>
         </div>
@@ -103,7 +106,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                 <h5 class="modal-title" id="readytowaitLabel">OOPS!</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"  onclick="document.getElementById('click_sound').play();">
                     <span aria-hidden="true">&#8855;</span>
                 </button>
                 </div>
@@ -114,7 +117,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+                    <button type="button" class="btn btn-secondary" onclick="document.getElementById('click_sound').play();" data-dismiss="modal" >OK</button>
                 </div>
             </div>
             </div>
@@ -127,7 +130,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                     <h5 class="modal-title" id="decisionLabel">DECISION</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"  onclick="document.getElementById('click_sound').play();">
                         <span aria-hidden="true">&#8855;</span>
                     </button>
                     </div>
@@ -228,7 +231,7 @@
                     </div>
                     <div class="modal-footer">
                         <!--是要按鈕變色就好還是跳頁?-->
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cofirmthedecision" onclick = "window.location.href='Client_Home_Action.html'">Confirm</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cofirmthedecision"  onclick="document.getElementById('click_sound').play(); window.location.href='Client_Home_Action.html'; ">Confirm</button>
                         <!--<button type="button" class="btn btn-secondary" data-dismiss="modal" id="cofirmthedecision">Confirm</button>-->
                     </div>
                     <!--按了confirm，按鈕action要變色-->

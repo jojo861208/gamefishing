@@ -9,7 +9,10 @@
 </head>
 
 <body>
-  <section id="rank">
+    <!-- 音效 -->
+    <audio id="click_sound" src="/audio/click_btn.mp3" preload="auto"></audio>
+
+<section id="rank">
     <div class="container" style="height:630px;">
         <div class="row">
             <div class="col-md-4" style="margin-bottom:10px;">
@@ -59,7 +62,7 @@
                     color: #FFFFFF;
                     line-height: 140%;
                     box-shadow: 5px 5px 4px #888888;">Show ranks</button>
-                    
+
                     <button type="button" class='btn' style="background: linear-gradient(83.53deg, #B114FF -13.77%, #6699FF 118.89%);
                     margin-top: 30px;
                     height: 70px;
@@ -77,7 +80,7 @@
                     box-shadow: 5px 5px 4px #888888;">Continue</button>
 
 
-                    <button type="button" class='btn' style="background: linear-gradient(83.53deg, #B114FF -13.77%, #6699FF 118.89%);
+                    <button type="button" class='btn' onclick="document.getElementById('click_sound').play();" style="background: linear-gradient(83.53deg, #B114FF -13.77%, #6699FF 118.89%);
                     margin-top: 30px;
                     height: 70px;
                     width: 270px;

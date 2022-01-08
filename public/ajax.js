@@ -42,6 +42,9 @@ function bind_url(api_url, data, method) {
 }
 
 function register() {
+    // 按鈕音效
+    document.getElementById('click_sound').play();
+    // start
     let group_id = document.getElementById('GroupName').value;
     console.log(group_id);
     let game_id = document.getElementById("RoomID").value;
@@ -96,6 +99,9 @@ function getgroupinfo() {
 
 
 function open_game() {
+    // 按鈕音效
+    document.getElementById('click_sound').play();
+    // start
     let group_number = sessionStorage.getItem('gn');
     console.log("我有拿到" + group_number);
     //var params = 'group_number='+group_number;
@@ -143,6 +149,9 @@ function open_game() {
 // }
 
 function checkstatus() {
+    // 按鈕音效
+    document.getElementById('click_sound').play();
+    // start
     //這裡是call檢查狀態的api
     //回傳1或是0
     var v1 = sessionStorage.getItem('gn')
