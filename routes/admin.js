@@ -95,4 +95,46 @@ router.get('/breeding', function (req, res) {
         });
 });
 
+router.get('/end_game', function (req, res, next) {
+    var game_id = req.query.game_id;
+
+    function get_fish_total(game_id) {
+        return new Promise((resolve, reject) => {
+            mysqlPoolQuery('SELECT fish_total FROM ocean WHERE game_id = ?', [game_id], function (err, result) {
+                if (err) {
+                    console.log(err);
+                    reject(err);
+                    return res.status(500).json({ success: false, message: "資料庫讀取失敗:\n" });
+                } else {
+                    if (result.length) {
+                        console.log("讀取資料庫成功");
+                        json_data = JSON.parse(JSON.stringify(result));
+                        // 處理回傳格式
+                        console.log(json_data[0]);
+                        fish_total = json_data[0].fish_total;
+                        resolve(fish_total);
+                    } else {
+                        return res.status(400).json({ success: false, message: `查無${game_id}資料` });
+                    }
+                }
+            });
+        })
+    }
+    try {
+        fish_total = get_fish_total(game_id);
+        if (fish_total >= 0) {
+            res.status(200).json({ success: true, data: "0" });
+        }
+        else {
+            res.status(200).json({ success: true, data: "1" });
+        }
+    }
+    catch (error) {
+        return res.status(400).json({ success: false, message: error });
+    }
+
+
+})
+
+
 module.exports = router;

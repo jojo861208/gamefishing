@@ -106,8 +106,8 @@ router.post('/buy_ship', function (req, res) {
     // 更新船數 & 回傳最大捕魚量 (怪：程式順序會先執行此查詢)
     if (buy_or_not == 1) {
         mysqlPoolQuery('UPDATE group_info \
-                      SET ship_count = ship_count + 1 \
-                      WHERE game_id = ? AND group_id = ?', [game_id, group_id], function (err) {
+                      SET ship_count = ship_count + 1 , fish_count = fish_count - 6 \
+                      WHERE game_id = ? AND group_id = ? ', [game_id, group_id], function (err) {
             if (err) {
                 console.log(err);
                 return res.status(500).json({ success: false, message: "買船失敗，請重新嘗試" });
@@ -194,7 +194,7 @@ router.get('/catch_fish', async function (req, res, next) {
                     } else {
                         console.log('-----插入購買記錄成功-----');
                         // 更新group_info中組內魚數量
-                        mysqlPoolQuery('UPDATE group_info SET fish_count = fish_count+? WHERE group_id = ?', [fish_delta, group_id], function (err, result) {
+                        mysqlPoolQuery('UPDATE group_info SET fish_count = fish_count+?, status = 0 WHERE group_id = ?', [fish_delta, group_id], function (err, result) {
                             if (err) {
                                 console.log('-----更新魚數失敗-----');
                                 console.log(err);
@@ -224,7 +224,7 @@ router.get('/catch_fish', async function (req, res, next) {
         }
         // decision2 = 休息
         else if (decision == 2) {
-            mysqlPoolQuery('UPDATE group_fish_record SET decision = 2 WHERE group_id = ?', [group_id], function (err, result) {
+            mysqlPoolQuery('UPDATE group_fish_record SET decision = 2 , status = 0 WHERE group_id = ?', [group_id], function (err, result) {
                 if (err) {
                     console.log('-----紀錄休息失敗-----');
                     console.log(err);
@@ -240,6 +240,7 @@ router.get('/catch_fish', async function (req, res, next) {
         // decision3 = 回饋海洋
         else if (decision == 3) {
             // 檢查回饋數量
+            fish_delta = fish_delta * (-1);
             if (fish_count + fish_delta >= 0) {
                 // 插入回饋紀錄
                 mysqlPoolQuery('INSERT INTO group_fish_record SET group_id=?, round = ? ,decision = 1,fish_delta = ?', [group_id, round, fish_delta], function (err, result) {
@@ -250,7 +251,7 @@ router.get('/catch_fish', async function (req, res, next) {
                     } else {
                         console.log('-----插入回饋記錄成功-----');
                         // 更新group_info中組內魚數量
-                        mysqlPoolQuery('UPDATE group_info SET fish_count = fish_conut+? WHERE group_id = ?', [fish_delta, group_id], function (err, result) {
+                        mysqlPoolQuery('UPDATE group_info SET fish_count = fish_conut+? , status = 0 WHERE group_id = ?', [fish_delta, group_id], function (err, result) {
                             if (err) {
                                 console.log('-----更新魚數失敗-----');
                                 console.log(err);
@@ -369,5 +370,28 @@ router.get('/get_group_info', async function (req, res, next) {
         return res.status(400).json({ success: false, message: error });
     }
 })
+
+router.get('/check_status', function (req, res, next) {
+    var game_id = req.query.game_id;
+    var group_id = req.query.group_id;
+
+    mysqlPoolQuery('SELECT status FROM group_info WHERE group_id = ? AND game_id = ?', [group_id, game_id], function (err, result) {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ success: false, message: "資料庫讀取失敗:\n" });
+        } else {
+            if (result.length) {
+                console.log("讀取資料庫成功");
+                json_data = JSON.parse(JSON.stringify(result));
+                _status = json_data[0].status;
+                return res.status(200).json({ success: true, message: _status });
+            } else {
+                return res.status(400).json({ success: false, message: `查無${group_id}資料` });
+            }
+        }
+    });
+})
+
+
 
 module.exports = router;

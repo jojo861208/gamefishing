@@ -231,6 +231,13 @@ button {
     left: 1138px;
     top: 722px;
 }*/
+#all {
+    position: absolute;
+    top: 55%;
+    left:15%;
+    transform: translate(-50%, -50%);
+
+}
 
 #rank .title {
     /* Current Rank */
