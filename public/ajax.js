@@ -100,16 +100,15 @@ function open_game() {
     let url = bind_url(api_url, data, 'GET');
     req.open("GET", url);
     console.log(req.status);
-    req.onload=function(){
-        reqdata=JSON.parse(req.responseText);
-        if(reqdata["success"]==true){
+    req.onload = function() {
+        reqdata = JSON.parse(req.responseText);
+        if (reqdata["success"] == true) {
             sessionStorage.setItem('game_id', reqdata['message']);
-            window.location.href=root_url+"/ready_1.html";
-        //game_id = round = reqdata["message"]["game_id"];
-        //console.log("game_id:"+ game_id);
-        // document.getElementById('fishes').innerHTML =fish_count;
-        }
-        else if(rep["success"]==false){
+            window.location.href = root_url + "/ready_1.html";
+            //game_id = round = reqdata["message"]["game_id"];
+            //console.log("game_id:"+ game_id);
+            // document.getElementById('fishes').innerHTML =fish_count;
+        } else if (rep["success"] == false) {
             alert(rep['message']);
         }
     }
@@ -121,31 +120,28 @@ function get_all_group() {
     console.log(v1)
     var req = new XMLHttpRequest();
     let api_url = "/client/get_all_group";
-    let data = {'game_id': 6699 };
+    let data = { 'game_id': 6699 };
     let url = bind_url(api_url, data, 'GET');
     req.open("GET", url);
     console.log(req.status);
-    req.onload = function () {
+    req.onload = function() {
         rep = JSON.parse(req.responseText);
         console.log(Object.values(rep));
         console.log(rep["message"][0]);
         // document.getElementById('array1').innerHTML = test111;
         let name = document.getElementById('output');
         if (rep["success"] == true) {
-            for (let i = 0; i <8 ;i++) {
-                if ( document.getElementById('array'+[i+1]).innerHTML == undefined){
-                    document.getElementById('array'+[i+1]).innerHTML ==" ";
+            for (let i = 0; i < 8; i++) {
+                if (document.getElementById('array' + [i + 1]).innerHTML == undefined) {
+                    document.getElementById('array' + [i + 1]).innerHTML == " ";
                 }
                 //document.getElementById("array"+[i]).innerHTML = rep[1];
-                else{
-                    var test111 =rep["message"][0];
-                    document.getElementById('array'+[i+1]).innerHTML = test111;
+                else {
+                    var test111 = rep["message"][0];
+                    document.getElementById('array' + [i + 1]).innerHTML = test111;
                 }
             }
-        }
-
-
-        else if (rep["success"] == false) {
+        } else if (rep["success"] == false) {
             alert(rep['message']);
         }
     }
@@ -153,32 +149,31 @@ function get_all_group() {
 }
 
 
-function check_rank(){
+function check_rank() {
     // 按鈕音效
     document.getElementById('click_sound').play();
     // start
     let game_id = sessionStorage.getItem('room');
     console.log(game_id);
-    var params = 'game_id='+game_id;
+    var params = 'game_id=' + game_id;
     var req = new XMLHttpRequest();
     let api_url = "/admin/check_rank";
     let data = { 'game_id': 6699 };
     let url = bind_url(api_url, data, 'GET');
     req.open("GET", url);
     console.log(req.status);
-    req.onload=function(){
+    req.onload = function() {
         rep = JSON.parse(req.responseText);
         console.log(rep["message"]);
-        if(rep["success"]==true){
+        if (rep["success"] == true) {
             rank_json = rep["message"]
-            for (let i = 1; i<=rank_json.length; i++){
+            for (let i = 1; i <= rank_json.length; i++) {
                 console.log(i);
-                document.getElementById('array'+i).innerHTML =rank_json[i-1];
+                document.getElementById('array' + i).innerHTML = rank_json[i - 1];
                 console.log(rank_json[i]);
             };
 
-        }
-        else if(rep["success"]==false){
+        } else if (rep["success"] == false) {
             alert(rep['message']);
         }
     }
@@ -221,13 +216,16 @@ function checkstatus() {
     //1跳client home
     //0跳modal
 }
+
 function catchfish() {
     var group_id = sessionStorage.getItem('gn');
     var game_id = sessionStorage.getItem('room');
     var round = sessionStorage.getItem('round');;
     var select = document.getElementById('yourdecision');
     var decision = select.options[select.selectedIndex].value;
-    var maxbuyfish = 5;
+    //var maxbuyfish = 5;
+    var maxbuyfish = sessionStorage.getItem('max_buy_fish');
+    document.getElementById('fishdelta').max = maxbuyfish;
     console.log("抓到決策了沒啦" + decision);
     console.log(typeof decision);
     if (decision == "1") {
@@ -236,7 +234,7 @@ function catchfish() {
     } else {
         if (decision == "3") {
             var fishdelta = document.getElementById('letfishbacknum').value;
-            var maxbuyfish = 0;
+            //var maxbuyfish = 0;
             console.log("放生看看" + decision);
         } else {
             var fishdelta = 0;
@@ -264,6 +262,7 @@ function catchfish() {
     }
     req.send();
 }
+
 function check_buy_ship() {
     var v1 = sessionStorage.getItem('gn')
     var v2 = sessionStorage.getItem('room')
@@ -276,6 +275,7 @@ function check_buy_ship() {
     console.log(req.status);
     req.onload = function() {
         rep = JSON.parse(req.responseText);
+        console.log(rep);
         if (rep["success"] == true) {
             //可以買船
             if (rep["message"]["check_buy_ship"] == 1) {
@@ -287,9 +287,11 @@ function check_buy_ship() {
                 alert('您目前不能買船，請直接按Next Step!')
                 $("#buyship").modal().show();
             }
+        } else if (rep["success"] == false) {
+            alert(rep['message']);
         }
     }
-
+    req.send();
 }
 
 function check_max_fish() {
@@ -315,7 +317,7 @@ function check_max_fish() {
     req.onload = function() {
         rep = JSON.parse(req.responseText);
         if (rep["success"] == true) {
-            let max_buy_fish = rep["message"]["max_buy_fish"];
+            let max_buy_fish = rep["message"];
             sessionStorage.setItem('max_buy_fish', max_buy_fish);
             $("#decision").modal().show();
         } else if (rep["success"] == false) {
@@ -336,12 +338,11 @@ function breeding() {
     let url = bind_url(api_url, data, 'GET');
     req.open("GET", url);
     console.log(req.status);
-    req.onload = function () {
+    req.onload = function() {
         rep = JSON.parse(req.responseText);
         if (rep["success"] == true) {
             console.log("breeding success");
-        }
-        else if (rep["success"] == false) {
+        } else if (rep["success"] == false) {
             alert(rep['message']);
         }
     }
@@ -370,16 +371,16 @@ function change_group_status(game_id) {
     req.open("POST", url, true);
     req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     req.send(param)
-    req.onload = function () {
+    req.onload = function() {
         rep = JSON.parse(req.responseText);
         if (rep["success"] == true) {
             console.log("change group status success");
-        }
-        else if (rep["success"] == false) {
+        } else if (rep["success"] == false) {
             alert(rep['message'])
         }
     }
 }
+
 function end_game() {
     var v1 = sessionStorage.getItem('game_id')
     var req = new XMLHttpRequest();
@@ -388,14 +389,13 @@ function end_game() {
     let url = bind_url(api_url, data, 'GET');
     req.open("GET", url);
     console.log(req.status);
-    req.onload = function () {
+    req.onload = function() {
         rep = JSON.parse(req.responseText);
         if (rep["success"] == true) {
             if (rep["message"] == 1) {
                 console.log("還有魚，顯示排名");
                 window.location.href = 'final.html';
-            }
-            else if (rep["message"] == 0) {
+            } else if (rep["message"] == 0) {
                 console.log("沒魚了，輸爆");
                 window.location.href = 'gameover.html'
             }
