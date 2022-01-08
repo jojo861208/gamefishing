@@ -66,6 +66,7 @@ function register() {
 }
 
 function getgroupinfo() {
+
     var v1 = sessionStorage.getItem('gn')
     var v2 = sessionStorage.getItem('room')
     console.log(v1 + " " + v2)
@@ -85,14 +86,16 @@ function getgroupinfo() {
             document.getElementById('fishes').innerHTML = fish_count;
             document.getElementById('ships').innerHTML = ship_count;
             document.getElementById('rounds').innerHTML = round;
+            document.getElementById('grounpname').innerHTML = v1;
+            sessionStorage.setItem('round', round);
+            sessionStorage.setItem('ship_count', ship_count);
+            sessionStorage.setItem('fish_count', fish_count);
         } else if (rep["success"] == false) {
             alert(rep['message']);
         }
     }
     req.send();
 }
-
-
 
 
 function open_game() {
@@ -105,16 +108,15 @@ function open_game() {
     let url = bind_url(api_url, data, 'GET');
     req.open("GET", url);
     console.log(req.status);
-    req.onload=function(){
-        reqdata=JSON.parse(req.responseText);
-        if(reqdata["success"]==true){
+    req.onload = function() {
+        reqdata = JSON.parse(req.responseText);
+        if (reqdata["success"] == true) {
             sessionStorage.setItem('game_id', reqdata['message']);
-            window.location.href=root_url+"/ready_1.html";
-        //game_id = round = reqdata["message"]["game_id"];
-        //console.log("game_id:"+ game_id);
-        // document.getElementById('fishes').innerHTML =fish_count;
-        }
-        else if(rep["success"]==false){
+            window.location.href = root_url + "/ready_1.html";
+            //game_id = round = reqdata["message"]["game_id"];
+            //console.log("game_id:"+ game_id);
+            // document.getElementById('fishes').innerHTML =fish_count;
+        } else if (rep["success"] == false) {
             alert(rep['message']);
         }
     }
@@ -173,4 +175,49 @@ function checkstatus() {
     req.send();
     //1跳client home
     //0跳modal
+}
+
+function catchfish() {
+    var group_id = sessionStorage.getItem('gn');
+    var game_id = sessionStorage.getItem('room');
+    var round = sessionStorage.getItem('round');;
+    var select = document.getElementById('yourdecision');
+    var decision = select.options[select.selectedIndex].value;
+    var maxbuyfish = 5;
+    console.log("抓到決策了沒啦" + decision);
+    console.log(typeof decision);
+    if (decision == "1") {
+        var fishdelta = document.getElementById('fishdelta').value;
+        console.log("抓魚看看" + decision);
+    } else {
+        if (decision == "3") {
+            var fishdelta = document.getElementById('letfishbacknum').value;
+            var maxbuyfish = 0;
+            console.log("放生看看" + decision);
+        } else {
+            var fishdelta = 0;
+            var maxbuyfish = 0;
+            console.log("休息看看" + decision);
+        }
+    }
+    console.log("組名" + group_id + " 房間" + game_id + "回合 " + round + " 決策" + decision + "捕魚或放魚" + fishdelta)
+    var req = new XMLHttpRequest();
+    let api_url = "/client/catch_fish";
+    let data = { 'group_id': group_id, 'game_id': game_id, 'round': round, 'decision': decision, 'fish_delta': fishdelta, 'max_buy_fish': maxbuyfish };
+    let url = bind_url(api_url, data, 'GET');
+    req.open("GET", url);
+    console.log(req.status);
+    req.onload = function() {
+        reqdata = JSON.parse(req.responseText);
+        console.log(reqdata);
+        if (reqdata["success"] == true) {
+            console.log("跳轉頁面囉");
+            path = 'Client_Home_Action.html'
+            window.location.replace(path);
+        } else {
+            alert(reqdata["message"]);
+        }
+
+    }
+    req.send();
 }
