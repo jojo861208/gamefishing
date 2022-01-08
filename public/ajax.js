@@ -156,8 +156,8 @@ function get_all_group() {
                 }
             }
         }
-            
-        
+
+
         else if (rep["success"] == false) {
             alert(rep['message']);
         }
@@ -166,26 +166,6 @@ function get_all_group() {
 }
 
 
-// function check_rank(){
-//     let game_id = document.getElementById('Game_id').value;
-//     console.log(game_id);
-//     var params = 'game_id='+game_id_id;
-//     var req = new XMLHttpRequest();
-//     req.open("GET",root_url + "/admin/check_rank"+"?number_of_group="+game_id);
-//     console.log(req.status);
-//     req.onload=function(){
-//         reqdata=JSON.parse(req.responseText);
-//         if(reqdata["success"]==true){
-//         game_id = round = reqdata["message"]["game_id"];
-//         console.log("game_id:"+ game_id);
-//         // document.getElementById('fishes').innerHTML =fish_count;
-//         }
-//         else if(reqdata["success"]==false){
-//             alert(reqdata['message']);
-//         }
-//     }
-//     req.send();
-// }
 function check_rank(){
     // 按鈕音效
     document.getElementById('click_sound').play();
