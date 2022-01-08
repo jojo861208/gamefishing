@@ -116,8 +116,9 @@ function open_game() {
 }
 
 function get_all_group() {
-    var v1 = sessionStorage.getItem('game_id')
-    console.log(v1)
+    var v1 = sessionStorage.getItem('game_id');
+    console.log("game_id"+v1);
+    document.getElementById('game_id').innerHTML = v1;
     var req = new XMLHttpRequest();
     let api_url = "/client/get_all_group";
     let data = { 'game_id': v1 };

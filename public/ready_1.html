@@ -48,7 +48,9 @@
                 <h2 style="color:white;font-size: 35px;margin:20px" >8</h2>
             </div>
                 <div class="col-md-4" style="text-align:center;height:600px;">
-                    <div class = "row" style="height:180px;"></div>
+                    <div class = "row justify-content-center" style="height:180px;">
+                        <h3 style = "color:white;font-size: 48px;">RoomID: <output id = "game_id"></output> </h3>
+                    </div>
                     <button type="button" class='btn' onclick=check_rank() style="background: linear-gradient(83.53deg, #B114FF -13.77%, #6699FF 118.89%);
                     margin-top: 30px;
                     height: 70px;
@@ -64,17 +66,6 @@
                     color: #FFFFFF;
                     line-height: 140%;
                     box-shadow: 5px 5px 4px #888888;">Show ranks</button>
-                    <script>
-                        let gn = sessionStorage.getItem('gn');
-                        console.log(gn);
-                        let game_id = sessionStorage.getItem('game_id');
-                        console.log(gn);
-
-
-                        var v1 = sessionStorage.getItem('gn')
-                        console.log(v1)
-                    </script>
-                    <script src='ajax.js'></script>
 
 
                     <button type="button" class='btn' onclick=breeding() style="background: linear-gradient(83.53deg, #B114FF -13.77%, #6699FF 118.89%);
@@ -113,107 +104,7 @@
                 </div>
             </div>
         </div>
-<!--
-      <div class="row"  style="margin:10px;">
-        <div class="col-md-4" style="text-align:left;">
-            <h2 style="color:white;">yoyoyo01</h2>
-        </div>
 
-        <div class="col-md-4">
-            <h2 style="color:white;" >2</h2>
-        </div>
-    </div>
-
-    <div class="row"  style="margin:10px;">
-        <div class="col-md-4" style="text-align:left;">
-            <h2 style="color:white;">yoyoyo01</h2>
-        </div>
-
-        <div class="col-md-4">
-            <h2 style="color:white;" >3</h2>
-        </div>
-    </div>
-
-    <div class="row"  style="margin:10px;">
-        <div class="col-md-4" style="text-align:left;">
-            <h2 style="color:white;">yoyoyo01</h2>
-        </div>
-
-        <div class="col-md-4">
-            <h2 style="color:white;" >4</h2>
-        </div>
-    </div>
-    <div class="row"  style="margin:10px;">
-        <div class="col-md-4" style="text-align:left;">
-            <h2 style="color:white;">yoyoyo01</h2>
-        </div>
-
-        <div class="col-md-4">
-            <h2 style="color:white;" >5</h2>
-        </div>
-        <div class="col-md-4">
-        <button type="button" class='btn' style="position: absolute;
-    width: 270px;
-    height: 80px;
-    left: 1138px;
-    top: 530px;">Show ranks</button></div>
-    </div>
-
-    <div class="row"  style="margin:10px;">
-      <div class="col-md-4" style="text-align:left;">
-          <h2 style="color:white;">yoyoyo01</h2>
-      </div>
-
-      <div class="col-md-4">
-          <h2 style="color:white;" >6</h2>
-      </div>
-  </div>
-
-  <div class="row"  style="margin:10px;">
-      <div class="col-md-4" style="text-align:left;">
-          <h2 style="color:white;">yoyoyo01</h2>
-      </div>
-
-      <div class="col-md-4">
-          <h2 style="color:white;" >7</h2>
-      </div>
-  </div>
-
-  <div class="row"  style="margin:10px;">
-      <div class="col-md-4" style="text-align:left;">
-          <h2 style="color:white;">yoyoyo01</h2>
-      </div>
-
-      <div class="col-md-4">
-          <h2 style="color:white;" >8</h2>
-      </div>
-  </div>
-
-  </div>
-
-  </section>-->
-
-<!--
-  <button class='continue' type="button">continue</button>
-  <button class='end' type="button">End</button>-->
-  <!---
-<section id="confirmbtn">
-    <button type="button" class='btn' style="position: absolute;
-    width: 270px;
-    height: 80px;
-    left: 1138px;
-    top: 530px;">Show ranks</button>
-    <button type="button" class='btn'style="position: absolute;
-    width: 270px;
-    height: 80px;
-    left: 1138px;
-    top: 642px;">continue</button>
-    <button type="button" class='btn' style="position: absolute;
-    width: 270px;
-    height: 80px;
-    left: 1138px;
-    top: 752px;">End</button>
-</section>-->
 <script src="ajax.js"></script>
 </body>
 
