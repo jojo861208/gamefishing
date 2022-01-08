@@ -314,7 +314,7 @@ button {
     top: 202px;
     -moz-border-radius: 50px;
     -webkit-border-radius: 50px;
-    border-radius: 50px;
+    border-radius: 100px;
     background: #FFD600;
 }
 
@@ -326,7 +326,7 @@ button {
     top: 349px;
     -moz-border-radius: 50px;
     -webkit-border-radius: 50px;
-    border-radius: 50px;
+    border-radius: 100px;
     background: #C4C4C4;
 }
 
@@ -338,7 +338,7 @@ button {
     top: 471px;
     -moz-border-radius: 50px;
     -webkit-border-radius: 50px;
-    border-radius: 50px;
+    border-radius: 100px;
     background: #C17B12;
 }
 
