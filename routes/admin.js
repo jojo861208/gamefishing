@@ -9,12 +9,11 @@ function getRandom(min, max) {
 
 router.get('/open_game', function (req, res, next) {
     var num_of_group = req.query.num_of_group;
-
-    var r = getRandom(0.9, 1.1);
-    var fish_total = r * (num_of_group * 16 + 4);
+    lower_bound = 0.9 * (num_of_group * 16 + 4);
+    upper_bound = 1.1 * (num_of_group * 16 + 4);
+    var fish_total = getRandom(lower_bound, upper_bound);
     fish_total = Math.round(fish_total, 1);
-    console.log(fish_total);
-    mysqlPoolQuery('INSERT INTO ocean VALUES (?,?)', [fish_total, 1], function (err, result) {
+    mysqlPoolQuery('INSERT INTO ocean (fish_total, round) VALUES (?,?)', [fish_total, 1], function (err, result) {
         if (err) {
             console.log(err);
             return res.status(500).json({ success: false, message: err });
