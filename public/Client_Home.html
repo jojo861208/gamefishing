@@ -55,10 +55,10 @@
                 <div class = "col-md-2">
                 </div>
                 <div class = "col-md-2">
-                    <button type="button" class="btn btn-defaule" data-toggle="modal" data-target="#buyship" id="actionbtn">Action</button>
+                    <button type="button" class="btn btn-defaule" data-toggle="modal" data-target="#buyship" id="actionbtn" onclick="check_buy_ship();">Action</button>
                 </div>
                 <div class = "col-md-2">
-                    <button type="button" class="btn btn-defaule"  data-toggle="modal" data-target="#readytowait">Ready</button>
+                    <button type="button" class="btn btn-defaule"  data-toggle="modal" data-target="#readytowait" >Ready</button>
                 </div>
             </div>
         </div>
@@ -75,8 +75,8 @@
             </button>
             </div>
             <div class="modal-body">
-                <label class="switch">
-                    <input type="checkbox">
+                <label class="switch" id='buyfish_switch'>
+                    <input type="checkbox" id='checkbox_fish'>
                     <span class="slider round"></span>
                 </label>
                 <div class = "row">

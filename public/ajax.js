@@ -174,3 +174,33 @@ function checkstatus() {
     //1跳client home
     //0跳modal
 }
+
+function check_buy_ship(){
+    var v1 = sessionStorage.getItem('gn')
+    var v2 = sessionStorage.getItem('room')
+    console.log(v1 + " " + v2)
+    var req = new XMLHttpRequest();
+    let api_url = "/client/check_buy_ship";
+    let data = { 'group_id': v1, 'game_id': v2 };
+    let url = bind_url(api_url, data, 'GET');
+    req.open("GET", url);
+    console.log(req.status);
+    req.onload = function() {
+        rep = JSON.parse(req.responseText);
+        if (rep["success"] == true) {
+            //可以買船
+            if(rep["message"]["check_buy_ship"]==1){
+                $("#buyship").modal().show(); 
+            }
+            //不能買船
+            else if(rep["message"]["check_buy_ship"]==0){
+                document.getElementById("checkbox_fish").disabled = true;
+                alert('您目前不能買船，請直接按Next Step!')
+                $("#buyship").modal().show(); 
+            }
+        } else if (rep["success"] == false) {
+            alert(rep['message']);
+        }
+    }
+    req.send();
+}
