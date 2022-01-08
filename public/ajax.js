@@ -24,15 +24,14 @@ function bind_url(api_url, data, method) {
             param = param + '&' + key + '=' + value
         }
         //POST回傳兩個值
-        return (param_url, param);
-    }
-    else if (method == 'GET') {
+        let result_ls = [param_url, param];
+        return (result_ls);
+    } else if (method == 'GET') {
         let count = 0;
         for (const [key, value] of Object.entries(data)) {
             if (count == 0) {
                 param_url = param_url + '?' + key + '=' + value
-            }
-            else {
+            } else {
                 param_url = param_url + '&' + key + '=' + value
             }
             count = count + 1;
@@ -47,20 +46,21 @@ function register() {
     console.log(group_id);
     let game_id = document.getElementById("RoomID").value;
     console.log(game_id);
-    let api_url = "/client/register"; 
+    let api_url = "/client/register";
     let data = { 'group_id': group_id, 'game_id': game_id };
-    let url, param = bind_url(api_url, data, 'POST');
+    let result_ls = bind_url(api_url, data, 'POST');
+    let url = result_ls[0]
+    let param = result_ls[1]
     var req = new XMLHttpRequest();
     req.open("POST", url, true);
     req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    req.send(param)
-    req.onload = function () {
+    req.send(param);
+    req.onload = function() {
         rep = JSON.parse(req.responseText);
         if (rep["success"] == true) {
-            window.location = 'Client_Home.html'
-        } 
-        else if (rep["success"] == false) {
-            alert(rep['message'])
+            window.location = 'Client_Home.html';
+        } else if (rep["success"] == false) {
+            alert(rep['message']);
         }
     }
 }
@@ -75,7 +75,7 @@ function getgroupinfo() {
     let url = bind_url(api_url, data, 'GET');
     req.open("GET", url);
     console.log(req.status);
-    req.onload = function () {
+    req.onload = function() {
         rep = JSON.parse(req.responseText);
         if (rep["success"] == true) {
             fish_count = round = rep["message"]["fish_count"];
@@ -85,8 +85,7 @@ function getgroupinfo() {
             document.getElementById('fishes').innerHTML = fish_count;
             document.getElementById('ships').innerHTML = ship_count;
             document.getElementById('rounds').innerHTML = round;
-        }
-        else if (rep["success"] == false) {
+        } else if (rep["success"] == false) {
             alert(rep['message']);
         }
     }
@@ -95,26 +94,25 @@ function getgroupinfo() {
 
 
 
-    
-function open_game(){
+
+function open_game() {
     let group_number = sessionStorage.getItem('gn');
-    console.log("我有拿到"+group_number);
+    console.log("我有拿到" + group_number);
     //var params = 'group_number='+group_number;
     var req = new XMLHttpRequest();
     let api_url = "/admin/open_game";
-    let data = { 'num_of_group': group_number};
+    let data = { 'num_of_group': group_number };
     let url = bind_url(api_url, data, 'GET');
-    req.open("GET",url);
+    req.open("GET", url);
     console.log(req.status);
-    req.onload=function(){
+    req.onload = function() {
         rep = JSON.parse(req.responseText);
-        if(rep["success"]==true){
-            window.location.href=root_url+"/ready_1.html";
-        //game_id = round = reqdata["message"]["game_id"];
-        //console.log("game_id:"+ game_id);
-        // document.getElementById('fishes').innerHTML =fish_count;
-        }
-        else if(rep["success"]==false){
+        if (rep["success"] == true) {
+            window.location.href = root_url + "/ready_1.html";
+            //game_id = round = reqdata["message"]["game_id"];
+            //console.log("game_id:"+ game_id);
+            // document.getElementById('fishes').innerHTML =fish_count;
+        } else if (rep["success"] == false) {
             alert(rep['message']);
         }
     }
@@ -142,3 +140,35 @@ function open_game(){
 //     req.send();
 // }
 
+function checkstatus() {
+    //這裡是call檢查狀態的api
+    //回傳1或是0
+    var v1 = sessionStorage.getItem('gn')
+    var v2 = sessionStorage.getItem('room')
+    console.log(v1 + " " + v2)
+    var req = new XMLHttpRequest();
+    let api_url = "/client/check_status";
+    var group_id = v1;
+    var game_id = v2;
+    let data = { 'group_id': group_id, 'game_id': game_id };
+    let url = bind_url(api_url, data, 'GET');
+    req.open("GET", url);
+    console.log(req.status);
+    req.onload = function() {
+        reqdata = JSON.parse(req.responseText);
+        console.log(reqdata);
+        if (reqdata["success"] == true) {
+            //1跳頁
+            if (reqdata["message"] == 1) {
+                console.log("跳轉頁面");
+                window.location.href = 'Client_Home.html';
+            } else {
+                console.log("OOPS等大家");
+                $("#readytowait").modal().show();
+            }
+        }
+    }
+    req.send();
+    //1跳client home
+    //0跳modal
+}
