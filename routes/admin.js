@@ -8,18 +8,20 @@ function getRandom(min, max) {
 };
 
 router.get('/open_game', function (req, res, next) {
+    var game_id = getRandom(1, 10000);
+    // console.log(game_id);
     var num_of_group = req.query.num_of_group;
     lower_bound = 0.9 * (num_of_group * 16 + 4);
     upper_bound = 1.1 * (num_of_group * 16 + 4);
     var fish_total = getRandom(lower_bound, upper_bound);
     fish_total = Math.round(fish_total, 1);
-    mysqlPoolQuery('INSERT INTO ocean (fish_total, round) VALUES (?,?)', [fish_total, 1], function (err, result) {
+    mysqlPoolQuery('INSERT INTO ocean (game_id, fish_total, round) VALUES (?, ?, ?)', [game_id, fish_total, 1], function (err, result) {
         if (err) {
             console.log(err);
             return res.status(500).json({ success: false, message: err });
         } else {
             json_data = JSON.parse(JSON.stringify(result));
-            return res.status(200).json({ success: true, message: "" });
+            return res.status(200).json({ success: true, message: game_id });
         }
     });
 });
