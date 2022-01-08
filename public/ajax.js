@@ -182,6 +182,7 @@ function checkstatus() {
     req.send();
     //1跳client home
     //0跳modal
+}
 function breeding() {
     let game_id = sessionStorage.getItem('game_id')
     console.log('game_id', game_id);
