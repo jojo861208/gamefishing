@@ -12,6 +12,8 @@
 //            }
 //          });
 
+//const { CLIENT_MULTI_RESULTS } = require("mysql/lib/protocol/constants/client");
+
 //     e.preventDefault(); // avoid to execute the actual submit of the form.
 // });
 root_url = "http://localhost:3000";
@@ -121,6 +123,43 @@ function open_game(){
     }
     req.send();
 }
+
+function get_all_group() {
+    var v1 = sessionStorage.getItem('room')
+    console.log(v1)
+    var req = new XMLHttpRequest();
+    let api_url = "/client/get_all_group";
+    let data = {'game_id': 6699 };
+    let url = bind_url(api_url, data, 'GET');
+    req.open("GET", url);
+    console.log(req.status);
+    req.onload = function () {
+        rep = JSON.parse(req.responseText);
+        console.log(Object.values(rep));
+        console.log(rep["message"][0]);
+        // document.getElementById('array1').innerHTML = test111;
+        let name = document.getElementById('output');
+        if (rep["success"] == true) {
+            for (let i = 0; i <8 ;i++) {
+                if ( document.getElementById('array'+[i+1]).innerHTML == undefined){
+                    document.getElementById('array'+[i+1]).innerHTML ==" ";
+                }
+                //document.getElementById("array"+[i]).innerHTML = rep[1];
+                else{
+                    var test111 =rep["message"][0];
+                    document.getElementById('array'+[i+1]).innerHTML = test111;
+                }
+            }
+        }
+            
+        
+        else if (rep["success"] == false) {
+            alert(rep['message']);
+        }
+    }
+    req.send();
+}
+
 
 // function check_rank(){
 //     let game_id = document.getElementById('Game_id').value;

@@ -8,7 +8,7 @@
   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Basic" />
 </head>
 
-<body>
+<body  onload="get_all_group()">
   <section id="rank">
     <div class="container" style="height:630px;">
         <div class="row">
@@ -22,14 +22,16 @@
 
         <div class="row">
             <div class="col-md-4" style="text-align:center;height:600px;">
-                <h2 style="color:white;font-size: 35px;margin:20px">yoyoyo01</h2>
-                <h2 style="color:white;font-size: 35px;margin:20px">yoyoyo01</h2>
-                <h2 style="color:white;font-size: 35px;margin:20px">yoyoyo01</h2>
-                <h2 style="color:white;font-size: 35px;margin:20px">yoyoyo01</h2>
-                <h2 style="color:white;font-size: 35px;margin:20px">yoyoyo01</h2>
-                <h2 style="color:white;font-size: 35px;margin:20px">yoyoyo01</h2>
-                <h2 style="color:white;font-size: 35px;margin:20px">yoyoyo01</h2>
-                <h2 style="color:white;font-size: 35px;margin:20px">yoyoyo01</h2>
+                <div class = "a">
+                    <h2 style="color:white;font-size: 35px;margin:20px"><output id="array1"></output></h2>
+                    <h2 style="color:white;font-size: 35px;margin:20px"><output id="array2"></output></h2>
+                    <h2 style="color:white;font-size: 35px;margin:20px"><output id="array3"></output></h2>
+                    <h2 style="color:white;font-size: 35px;margin:20px"><output id="array4"></output></h2>
+                    <h2 style="color:white;font-size: 35px;margin:20px"><output id="array5"></output></h2>
+                    <h2 style="color:white;font-size: 35px;margin:20px"><output id="array6"></output></h2>
+                    <h2 style="color:white;font-size: 35px;margin:20px"><output id="array7"></output></h2>
+                    <h2 style="color:white;font-size: 35px;margin:20px"><output id="array8"></output></h2>
+                </div>
             </div>
 
             <div class="col-md-4" style="text-align:center;height:600px;">
@@ -44,7 +46,7 @@
             </div>
                 <div class="col-md-4" style="text-align:center;height:600px;">
                     <div class = "row" style="height:180px;"></div>
-                    <button type="button" class='btn' onclick=open_game() style="background: linear-gradient(83.53deg, #B114FF -13.77%, #6699FF 118.89%);
+                    <button type="button" class='btn' style="background: linear-gradient(83.53deg, #B114FF -13.77%, #6699FF 118.89%);
                     margin-top: 30px;
                     height: 70px;
                     width: 270px;
@@ -59,6 +61,22 @@
                     color: #FFFFFF;
                     line-height: 140%;
                     box-shadow: 5px 5px 4px #888888;">Show ranks</button>
+                    <script>
+                        let gn = sessionStorage.getItem('gn');
+                        console.log(gn);
+                        let game_id = sessionStorage.getItem('game_id');
+                        console.log(gn);
+                        document.getElementById('game_id').onkeyup = function() {
+                            var gn=this.value
+                            console.log(gn)
+                            sessionStorage.setItem('gn',gn)
+                            console.log('Current rank is '+ sessionStorage.getItem('gn'))
+                        }
+                       
+                        var v1 = sessionStorage.getItem('gn')
+                        console.log(v1)
+                    </script>
+                    <script src='ajax.js'></script>
                     
                     <button type="button" class='btn' style="background: linear-gradient(83.53deg, #B114FF -13.77%, #6699FF 118.89%);
                     margin-top: 30px;
@@ -75,7 +93,6 @@
                     color: #FFFFFF;
                     line-height: 140%;
                     box-shadow: 5px 5px 4px #888888;">Continue</button>
-
 
                     <button type="button" class='btn' style="background: linear-gradient(83.53deg, #B114FF -13.77%, #6699FF 118.89%);
                     margin-top: 30px;
