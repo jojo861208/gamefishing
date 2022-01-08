@@ -108,6 +108,7 @@ function open_game(){
     req.onload=function(){
         reqdata=JSON.parse(req.responseText);
         if(reqdata["success"]==true){
+            sessionStorage.setItem('game_id', reqdata['message']);
             window.location.href=root_url+"/ready_1.html";
         //game_id = round = reqdata["message"]["game_id"];
         //console.log("game_id:"+ game_id);
