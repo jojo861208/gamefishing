@@ -13,6 +13,9 @@
 </head>
 
 <body>
+    <!-- 音效 -->
+    <audio id="click_sound" src="/audio/click_btn.mp3" preload="auto"></audio>
+
     <section id = "inputName">
         <div class="container">
             <div class = "row" style="height: 160px"></div>
@@ -28,8 +31,6 @@
                     sessionStorage.setItem('gn',gn)
                     console.log('Your group number is '+ sessionStorage.getItem('gn'))
                 }
-    
-               
                 var v1 = sessionStorage.getItem('gn')
                 console.log(v1)
             </script>

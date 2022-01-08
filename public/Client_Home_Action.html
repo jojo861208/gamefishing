@@ -22,6 +22,11 @@
 </head>
 
 <body onload="getgroupinfo();">
+    <!-- 音效 -->
+    <audio id="click_sound" src="/audio/click_btn.mp3" preload="auto"></audio>
+    <audio src="/audio/bgm.mp3" autoplay loop></audio>
+
+
     <section id = "NameAndRound">
         <div class="container">
             <div class = "row">
@@ -54,7 +59,7 @@
                 <div class = "col-md-2">
                 </div>
                 <div class = "col-md-2">
-                    <button type="button" disabled id="Actionclicked" class="btn btn-defaule" >Action</button>
+                    <button type="button" disabled id="Actionclicked" class="btn btn-defaule" onclick="document.getElementById('click_sound').play();">Action</button>
                 </div>
                 <div class = "col-md-2">
                     <!--是要按鈕變色就好還是跳頁?-->
@@ -82,7 +87,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                 <h5 class="modal-title" id="readytowaitLabel">OOPS!</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="document.getElementById('click_sound').play();">
                     <span aria-hidden="true">&#8855;</span>
                 </button>
                 </div>
@@ -93,7 +98,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+                    <button type="button" class="btn btn-secondary" onclick="document.getElementById('click_sound').play();" data-dismiss="modal">OK</button>
                 </div>
             </div>
             </div>

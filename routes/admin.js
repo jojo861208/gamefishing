@@ -7,6 +7,10 @@ function getRandom(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
+function generateRandomInt(min, max) {
+    return Math.floor((Math.random() * (max - min)) + min);
+}
+
 router.get('/open_game', function (req, res, next) {
     var game_id = getRandom(1, 10000);
     // console.log(game_id);
