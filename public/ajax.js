@@ -58,7 +58,8 @@ function register() {
         rep = JSON.parse(req.responseText);
         if (rep["success"] == true) {
             window.location = 'Client_Home.html'
-        } else {
+        } 
+        else if (rep["success"] == false) {
             alert(rep['message'])
         }
     }
@@ -114,8 +115,8 @@ function open_game(){
         //console.log("game_id:"+ game_id);
         // document.getElementById('fishes').innerHTML =fish_count;
         }
-        else if(reqdata["success"]==false){
-            alert(reqdata['message']);
+        else if(rep["success"]==false){
+            alert(rep['message']);
         }
     }
     req.send();
