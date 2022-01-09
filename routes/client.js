@@ -188,6 +188,45 @@ router.get('/catch_fish', async function(req, res, next) {
         });
 
     };
+    function get_ship_count(group_id, game_id){
+        return new Promise((resolve, reject) => {
+            mysqlPoolQuery('SELECT ship_count FROM group_info WHERE game_id = ?, group_id = ?', [game_id, group_id], function(err, result) {
+                if (err) {
+                    console.log(err);
+                    reject(err);
+                } else {
+                    if (result.length) {
+                        json_data = JSON.parse(JSON.stringify(result));
+                        ship_count = json_data[0].ship_count;
+                        resolve(ship_count);
+                    } else {
+                        res.status(400).json({ success: false, message: '查無資料' })
+                    }
+                }
+            });
+        })
+    }
+
+    async function dock_fee(group_id, game_id){
+        ship_count = await get_ship_count(group_id, game_id);
+        fee = ship_count*1;
+            mysqlPoolQuery('UPDATE group_info SET fish_count = fish_count- ?  WHERE game_id = ? AND group_id = ?', [fee, game_id, group_id], function(err, result) {
+                if (err) {
+                    console.log(err);
+                    reject(err);
+                } else {
+                    if (result.length) {
+                        json_data = JSON.parse(JSON.stringify(result));
+                        fish_total = json_data[0].fish_total;
+                        fish_total = parseInt(fish_total);
+                        resolve(fish_total);
+                    } else {
+                        res.status(400).json({ success: false, message: '查無資料' })
+                    }
+                }
+            });
+        };
+
 
     fish_count = await get_fish_count(group_id, game_id);
     fish_total = await get_fish_total(game_id);
@@ -221,6 +260,7 @@ router.get('/catch_fish', async function(req, res, next) {
                                         console.log(err);
                                         return err;
                                     } else {
+                                        dock_fee(group_id,game_id);
                                         console.log('-----更新魚池總數成功-----');
                                     }
                                 });
@@ -245,6 +285,7 @@ router.get('/catch_fish', async function(req, res, next) {
                     console.log('-----紀錄休息成功-----');
                     json_data = JSON.parse(JSON.stringify(result));
                     update_status(group_id);
+                    dock_fee(group_id,game_id);
 
                 }
             });
@@ -256,8 +297,7 @@ router.get('/catch_fish', async function(req, res, next) {
         // decision3 = 回饋海洋
         else if (decision == 3) {
             // 檢查回饋數量
-            console.log(fish_delta);
-            if (fish_count + fish_delta >= 0) {
+            if (fish_count - fish_delta >= 0) {
                 // 插入回饋紀錄
                 mysqlPoolQuery('INSERT INTO group_fish_record SET group_id=?, round = ? ,decision = 3,fish_delta = ?, game_id = ?', [group_id, round, fish_delta, game_id], function(err, result) {
                     if (err) {
@@ -282,6 +322,8 @@ router.get('/catch_fish', async function(req, res, next) {
                                         return err;
                                     } else {
                                         console.log('-----更新魚池總數成功-----');
+                                        dock_fee(group_id,game_id);
+
                                     }
                                 });
                             }
@@ -299,6 +341,21 @@ router.get('/catch_fish', async function(req, res, next) {
         return res.status(400).json({ success: false, message: "海洋沒魚了QQ" })
     }
 
+})
+
+router.get('/check_all_status',function(req, res,next){
+    game_id = req.query.game_id;
+    mysqlPoolQuery('SELECT group_id, status FROM group_info WHERE game_id = ?', [game_id], function(err, result) {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ success: false, message: "資料庫讀取失敗:\n" });
+        } else {
+            console.log("讀取資料庫成功")
+            json_data = JSON.parse(JSON.stringify(result));
+            // 回傳json
+            return res.status(200).json({ success: true, message: json_data });
+        }
+    });
 })
 
 router.get('/check_rest_fish', function(req, res, next) {
